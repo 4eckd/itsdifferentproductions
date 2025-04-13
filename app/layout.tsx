@@ -3,7 +3,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Its Different Productions',
-  description: 'A Media Corporation',
+  description: 'A #40gang Media Corporation.',
   generator: 'jlucus.dev',
 }
 
