@@ -8,8 +8,8 @@ import createGlobe from "cobe"
 import type { COBEOptions } from "cobe"
 
 const GLOBE_CONFIG: COBEOptions = {
-  width: 480,
-  height: 480,
+  width: 1280,
+  height: 720,
   onRender: () => {},
   devicePixelRatio: 2,
   phi: 0,
