@@ -159,80 +159,92 @@ export function SiteHeader() {
       {/* Mobile Navigation */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            className="fixed inset-0 top-16 sm:top-20 z-40 bg-background md:hidden overflow-hidden flex flex-col"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-          >
-            <div className="flex-1 overflow-y-auto">
-              <div className="container py-6 space-y-4">
-                {/* Search Input - Mobile */}
-                <div className="relative mb-8">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <input
-                    type="search"
-                    placeholder="Search products..."
-                    className="w-full h-10 pl-10 pr-4 rounded-full bg-muted/50 border border-border focus:outline-none focus:ring-2 focus:ring-primary/20"
-                  />
-                </div>
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-30 md:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMenuOpen(false)}
+            />
 
-                {/* Navigation Links */}
-                <div className="space-y-1">
-                  {navItems.map((item) => {
-                    const isActive =
-                      item.href === "/store"
-                        ? pathname === "/store"
-                        : pathname?.startsWith(item.href);
+            {/* Menu Content */}
+            <motion.div
+              className="fixed inset-x-0 top-16 sm:top-20 bottom-0 z-40 bg-background md:hidden overflow-hidden flex flex-col"
+              initial={{ opacity: 0, x: -300 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -300 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            >
+              <div className="flex-1 overflow-y-auto">
+                <div className="container py-6 space-y-4">
+                  {/* Search Input - Mobile */}
+                  <div className="relative mb-8">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <input
+                      type="search"
+                      placeholder="Search products..."
+                      className="w-full h-10 pl-10 pr-4 rounded-full bg-muted/50 border border-border focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    />
+                  </div>
 
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={cn(
-                          "flex items-center py-3 px-3 rounded-lg text-base font-medium transition-colors",
-                          isActive
-                            ? "bg-primary/10 text-primary"
-                            : "hover:bg-muted text-foreground/80 hover:text-foreground"
-                        )}
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        <item.icon className="mr-3 h-5 w-5" />
-                        {item.name}
-                      </Link>
-                    );
-                  })}
-                </div>
+                  {/* Navigation Links */}
+                  <div className="space-y-1">
+                    {navItems.map((item) => {
+                      const isActive =
+                        item.href === "/store"
+                          ? pathname === "/store"
+                          : pathname?.startsWith(item.href);
 
-                {/* Additional Links */}
-                <div className="mt-8 pt-6 border-t space-y-1">
-                  <Link
-                    href="/contact"
-                    className="flex items-center py-3 px-3 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Contact Us
-                  </Link>
-                  <Link
-                    href="/about"
-                    className="flex items-center py-3 px-3 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    About Us
-                  </Link>
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className={cn(
+                            "flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors",
+                            isActive
+                              ? "bg-primary/10 text-primary"
+                              : "hover:bg-muted text-foreground/80 hover:text-foreground"
+                          )}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <item.icon className="mr-3 h-5 w-5" />
+                          {item.name}
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  {/* Additional Links */}
+                  <div className="mt-8 pt-6 border-t space-y-1">
+                    <Link
+                      href="/contact"
+                      className="flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Contact Us
+                    </Link>
+                    <Link
+                      href="/about"
+                      className="flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      About Us
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Footer */}
-            <div className="border-t py-4 bg-muted/30">
-              <div className="container flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">© 2024 IDP</span>
-                <Button variant="outline" size="sm">Sign In</Button>
+              {/* Footer */}
+              <div className="border-t py-4 bg-muted/30">
+                <div className="container flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">© {new Date().getFullYear()} IDP</span>
+                  <Button variant="outline" size="sm">Sign In</Button>
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

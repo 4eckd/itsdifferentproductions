@@ -2,7 +2,19 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Instagram, Twitter, Youtube, Mail, MapPin, Phone, ArrowRight } from "lucide-react";
+import {
+  Instagram,
+  Twitter,
+  Youtube,
+  Mail,
+  MapPin,
+  Phone,
+  ArrowRight,
+  Facebook,
+  Linkedin,
+  Music,
+  MessageCircle
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 
@@ -77,9 +89,9 @@ export function SiteFooter({ className }: { className?: string }) {
               </div>
 
               {/* Social Links */}
-              <div className="mt-8 flex space-x-2">
+              <div className="mt-8 flex flex-wrap gap-2">
                 <a
-                  href="https://instagram.com"
+                  href="https://instagram.com/itsdifferentproductions"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
@@ -104,6 +116,64 @@ export function SiteFooter({ className }: { className?: string }) {
                   aria-label="YouTube"
                 >
                   <Youtube className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://facebook.com/itsdifferentproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://linkedin.com/company/itsdifferentproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://tiktok.com/@itsdifferentproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                  aria-label="TikTok"
+                >
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://soundcloud.com/itsdifferentproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                  aria-label="SoundCloud"
+                >
+                  <Music className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://open.spotify.com/artist/itsdifferentproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                  aria-label="Spotify"
+                >
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.059 14.406c-.192 0-.286-.093-.477-.179-1.241-.751-2.765-1.129-4.388-1.129-1.909 0-3.805.477-4.388.477-.192 0-.382-.096-.382-.287V14.1c0-.192.19-.286.381-.286.954 0 2.671-.19 4.39-.19 1.715 0 3.43.38 4.676 1.144.096.096.192.19.192.38 0 .096-.096.192-.192.192l-.192.096zm.764-1.909c-.19 0-.285-.096-.476-.19-1.337-.764-3.24-1.241-5.342-1.241-2.1 0-3.806.19-4.866.19-.19 0-.286-.095-.286-.286v-1.144c0-.19.096-.286.286-.286 1.05 0 2.86-.19 4.866-.19 2.195 0 4.39.477 5.913 1.241.19.096.286.286.286.477 0 .095-.096.19-.19.286l-.191.143zm.954-2.195c-.19 0-.286-.095-.477-.19-1.528-.954-4.293-1.432-6.583-1.432-2.195 0-4.294.19-5.437.19-.19 0-.286-.096-.286-.286V9.14c0-.19.096-.286.286-.286 1.146 0 3.336-.19 5.437-.19 2.481 0 5.437.477 7.06 1.528.19.095.286.19.286.38 0 .096-.096.192-.19.287l-.096.095z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://t.me/itsdifferentproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                  aria-label="Telegram"
+                >
+                  <MessageCircle className="h-5 w-5" />
                 </a>
               </div>
             </div>
