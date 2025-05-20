@@ -1,72 +1,98 @@
+"use client";
+
 import { cn } from "@/lib/utils";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+
+interface BackgroundGradientProps {
+  children?: React.ReactNode;
+  className?: string;
+  containerClassName?: string;
+  gradientClassName?: string;
+  interactive?: boolean;
+  borderRadius?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
+}
 
 export const BackgroundGradient = ({
   children,
   className,
   containerClassName,
-  animate = true,
-}: {
-  children?: React.ReactNode;
-  className?: string;
-  containerClassName?: string;
-  animate?: boolean;
-}) => {
-  const variants = {
-    initial: {
-      backgroundPosition: "0 50%",
-    },
-    animate: {
-      backgroundPosition: ["0, 50%", "100% 50%", "0 50%"],
-    },
+  gradientClassName,
+  interactive = true,
+  borderRadius = "xl",
+}: BackgroundGradientProps) => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Map border radius values to Tailwind classes
+  const borderRadiusMap = {
+    sm: "rounded-sm",
+    md: "rounded-md",
+    lg: "rounded-lg",
+    xl: "rounded-xl",
+    "2xl": "rounded-2xl",
+    "3xl": "rounded-3xl",
+    full: "rounded-full",
   };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!interactive) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    setMousePosition({ x, y });
+  };
+
   return (
-    <div className={cn("relative p-[4px] group", containerClassName)}>
-      <motion.div
-        variants={animate ? variants : undefined}
-        initial={animate ? "initial" : undefined}
-        animate={animate ? "animate" : undefined}
-        transition={
-          animate
-            ? {
-                duration: 5,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }
-            : undefined
-        }
-        style={{
-          backgroundSize: animate ? "400% 400%" : undefined,
-        }}
+    <div
+      className={cn("relative p-[3px] group transition-all duration-300", containerClassName)}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Blurred gradient background */}
+      <div
         className={cn(
-          "absolute inset-0 rounded-3xl z-[1] opacity-60 group-hover:opacity-100 blur-xl  transition duration-500 will-change-transform",
-          " bg-[radial-gradient(circle_farthest-side_at_0_100%,#00ccb1,transparent),radial-gradient(circle_farthest-side_at_100%_0,#7b61ff,transparent),radial-gradient(circle_farthest-side_at_100%_100%,#ffc414,transparent),radial-gradient(circle_farthest-side_at_0_0,#1ca0fb,#141316)]"
+          "absolute inset-0 z-[1] opacity-60 group-hover:opacity-80 blur-xl transition-all duration-500",
+          borderRadiusMap[borderRadius],
+          gradientClassName || "bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500"
         )}
-      />
-      <motion.div
-        variants={animate ? variants : undefined}
-        initial={animate ? "initial" : undefined}
-        animate={animate ? "animate" : undefined}
-        transition={
-          animate
+        style={
+          interactive && isHovered
             ? {
-                duration: 5,
-                repeat: Infinity,
-                repeatType: "reverse",
+                background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, var(--tw-gradient-stops))`,
               }
-            : undefined
+            : {}
         }
-        style={{
-          backgroundSize: animate ? "400% 400%" : undefined,
-        }}
-        className={cn(
-          "absolute inset-0 rounded-3xl z-[1] will-change-transform",
-          "bg-[radial-gradient(circle_farthest-side_at_0_100%,#00ccb1,transparent),radial-gradient(circle_farthest-side_at_100%_0,#7b61ff,transparent),radial-gradient(circle_farthest-side_at_100%_100%,#ffc414,transparent),radial-gradient(circle_farthest-side_at_0_0,#1ca0fb,#141316)]"
-        )}
       />
 
-      <div className={cn("relative z-10", className)}>{children}</div>
+      {/* Sharp gradient border */}
+      <div
+        className={cn(
+          "absolute inset-0 z-[1] transition-all duration-300",
+          borderRadiusMap[borderRadius],
+          gradientClassName || "bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500"
+        )}
+        style={
+          interactive && isHovered
+            ? {
+                background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, var(--tw-gradient-stops))`,
+              }
+            : {}
+        }
+      />
+
+      {/* Content container */}
+      <div
+        className={cn(
+          "relative z-10 h-full",
+          borderRadiusMap[borderRadius],
+          className
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 };
