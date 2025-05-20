@@ -6,15 +6,16 @@ This directory contains SQL scripts and instructions for setting up the Supabase
 
 1. Create a new Supabase project at [https://supabase.com/dashboard](https://supabase.com/dashboard)
 2. Run the SQL scripts in the Supabase SQL Editor in the following order:
-   - `schema.sql` - Creates the database tables and RLS policies
+   - `schema.sql` - Creates the core database tables and RLS policies
    - `storage.sql` - Creates the storage buckets and RLS policies
+   - `schema-updates.sql` - Adds additional fields and tables to enhance the schema
 3. Configure authentication settings in the Supabase dashboard
 4. Get your Supabase URL and anon key from the API settings
 5. Update your `.env.local` file with the Supabase credentials
 
 ## Database Schema
 
-The database schema includes the following tables:
+### Core Tables
 
 - `users` - User information (extends Supabase auth.users)
 - `profiles` - User profiles with additional information
@@ -25,6 +26,27 @@ The database schema includes the following tables:
 - `orders` - Order information
 - `order_items` - Items in an order
 - `cart_items` - Items in a user's cart
+
+### Additional Tables
+
+- `product_reviews` - User reviews for products
+- `product_categories` - Categories for organizing products
+- `product_category_mappings` - Junction table for product-category relationships
+- `discount_codes` - Promotional discount codes
+- `wishlist_items` - Items in a user's wishlist
+
+### Schema Enhancements
+
+The schema has been enhanced with additional fields to support:
+
+- User preferences and contact information
+- Product metadata and SEO information
+- Beat-specific technical details
+- Merchandise material and shipping information
+- NFT royalties and blockchain metadata
+- Order tracking and shipping details
+- Discount code management
+- User wishlists and product reviews
 
 ## Storage Buckets
 

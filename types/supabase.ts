@@ -18,6 +18,9 @@ export interface Database {
           created_at: string
           updated_at: string
           role: 'customer' | 'admin'
+          phone_text: string | null
+          notification_preferences: Json | null
+          last_login: string | null
         }
         Insert: {
           id?: string
@@ -27,6 +30,9 @@ export interface Database {
           created_at?: string
           updated_at?: string
           role?: 'customer' | 'admin'
+          phone_text?: string | null
+          notification_preferences?: Json | null
+          last_login?: string | null
         }
         Update: {
           id?: string
@@ -36,6 +42,9 @@ export interface Database {
           created_at?: string
           updated_at?: string
           role?: 'customer' | 'admin'
+          phone_text?: string | null
+          notification_preferences?: Json | null
+          last_login?: string | null
         }
       }
       profiles: {
@@ -47,6 +56,9 @@ export interface Database {
           social_links: Json | null
           shipping_address: Json | null
           billing_address: Json | null
+          display_name: string | null
+          preferred_payment_method: string | null
+          crypto_wallet_addresses: Json | null
         }
         Insert: {
           id: string
@@ -56,6 +68,9 @@ export interface Database {
           social_links?: Json | null
           shipping_address?: Json | null
           billing_address?: Json | null
+          display_name?: string | null
+          preferred_payment_method?: string | null
+          crypto_wallet_addresses?: Json | null
         }
         Update: {
           id?: string
@@ -65,6 +80,9 @@ export interface Database {
           social_links?: Json | null
           shipping_address?: Json | null
           billing_address?: Json | null
+          display_name?: string | null
+          preferred_payment_method?: string | null
+          crypto_wallet_addresses?: Json | null
         }
       }
       products: {
@@ -276,6 +294,142 @@ export interface Database {
           user_id?: string
           product_id?: string
           quantity?: number
+          added_at?: string
+        }
+      }
+      product_reviews: {
+        Row: {
+          id: string
+          product_id: string
+          user_id: string
+          rating: number
+          review_text: string | null
+          created_at: string
+          updated_at: string
+          helpful_count: number
+        }
+        Insert: {
+          id?: string
+          product_id: string
+          user_id: string
+          rating: number
+          review_text?: string | null
+          created_at?: string
+          updated_at?: string
+          helpful_count?: number
+        }
+        Update: {
+          id?: string
+          product_id?: string
+          user_id?: string
+          rating?: number
+          review_text?: string | null
+          created_at?: string
+          updated_at?: string
+          helpful_count?: number
+        }
+      }
+      product_categories: {
+        Row: {
+          id: string
+          name: string
+          description: string | null
+          parent_id: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          description?: string | null
+          parent_id?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          description?: string | null
+          parent_id?: string | null
+          created_at?: string
+        }
+      }
+      product_category_mappings: {
+        Row: {
+          product_id: string
+          category_id: string
+        }
+        Insert: {
+          product_id: string
+          category_id: string
+        }
+        Update: {
+          product_id?: string
+          category_id?: string
+        }
+      }
+      discount_codes: {
+        Row: {
+          id: string
+          code: string
+          description: string | null
+          discount_type: 'percentage' | 'fixed_amount'
+          discount_value: number
+          min_purchase_amount: number
+          max_discount_amount: number | null
+          start_date: string
+          end_date: string | null
+          usage_limit: number | null
+          usage_count: number
+          is_active: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          code: string
+          description?: string | null
+          discount_type: 'percentage' | 'fixed_amount'
+          discount_value: number
+          min_purchase_amount?: number
+          max_discount_amount?: number | null
+          start_date?: string
+          end_date?: string | null
+          usage_limit?: number | null
+          usage_count?: number
+          is_active?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          code?: string
+          description?: string | null
+          discount_type?: 'percentage' | 'fixed_amount'
+          discount_value?: number
+          min_purchase_amount?: number
+          max_discount_amount?: number | null
+          start_date?: string
+          end_date?: string | null
+          usage_limit?: number | null
+          usage_count?: number
+          is_active?: boolean
+          created_at?: string
+        }
+      }
+      wishlist_items: {
+        Row: {
+          id: string
+          user_id: string
+          product_id: string
+          added_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          product_id: string
+          added_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          product_id?: string
           added_at?: string
         }
       }

@@ -58,6 +58,22 @@ pnpm dev
 
 The application will be available at [http://localhost:3000](http://localhost:3000).
 
+### Deployment
+
+The application is deployed on Vercel with a CI/CD pipeline that automatically deploys changes pushed to the main branch.
+
+1. **Production Environment**: [https://itsdifferentproductions.vercel.app](https://itsdifferentproductions.vercel.app)
+2. **Preview Environments**: Automatically created for pull requests
+
+#### Environment Variables
+
+The following environment variables need to be set in the Vercel dashboard:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
+
 ### Building for Production
 
 ```bash
@@ -269,6 +285,9 @@ This project is configured for deployment on Vercel. The `vercel.json` file cont
 - **2024-07-29**: Connected project to Supabase instance
 - **2024-07-29**: Created database schema and storage buckets in Supabase
 - **2024-07-29**: Set up Row Level Security policies for data protection
+- **2024-07-30**: Deployed project to Vercel with CI/CD pipeline
+- **2024-07-30**: Created helper functions for database and storage operations
+- **2024-07-30**: Updated documentation with deployment details
 
 ## Future Plans
 
@@ -281,10 +300,13 @@ This project is configured for deployment on Vercel. The `vercel.json` file cont
 - ✅ Connect project to Supabase instance
 - ✅ Set up database tables and storage buckets
 - ✅ Configure Row Level Security policies
+- ✅ Deploy to Vercel with CI/CD pipeline
+- Enhance schema with additional fields for better data organization
 - Implement product detail pages for beats, merchandise, and NFTs
 - Add shopping cart functionality with Supabase
 - Implement search functionality
 - Add product filtering and sorting options
+- Optimize file uploads with client-side audio processing
 
 ### Mid-term Goals
 - Integrate payment processing with NOW Payments API
