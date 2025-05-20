@@ -36,14 +36,18 @@ pnpm install
 
 1. Create a free Supabase account at [https://supabase.com](https://supabase.com)
 2. Create a new project
-3. Set up the database tables as defined in the [Database Schema](#database-schema) section
-4. Set up storage buckets:
-   - `product_images` - Public bucket for product display images
-   - `audio_files` - Protected bucket for beat audio files
-   - `user_uploads` - Private bucket for user-specific files
-   - `nft_assets` - Public bucket for NFT media files
+3. Run the SQL scripts in the `supabase` directory in the Supabase SQL Editor:
+   - `schema.sql` - Creates the database tables and RLS policies
+   - `storage.sql` - Creates the storage buckets and RLS policies
+4. Configure authentication settings in the Supabase dashboard:
+   - Enable "Email" provider
+   - Configure email templates for confirmation and password reset
 5. Copy your Supabase URL and anon key from the API settings
-6. Create a `.env.local` file based on the `.env.local.example` template
+6. Create a `.env.local` file with your Supabase credentials:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   ```
 
 ### Running the Development Server
 
@@ -262,6 +266,9 @@ This project is configured for deployment on Vercel. The `vercel.json` file cont
 - **2024-07-28**: Created beat upload form with file validation
 - **2024-07-28**: Added validation schemas for merchandise and NFTs
 - **2024-07-28**: Updated project documentation with Supabase integration details
+- **2024-07-29**: Connected project to Supabase instance
+- **2024-07-29**: Created database schema and storage buckets in Supabase
+- **2024-07-29**: Set up Row Level Security policies for data protection
 
 ## Future Plans
 
@@ -271,6 +278,9 @@ This project is configured for deployment on Vercel. The `vercel.json` file cont
 - ✅ Create form components with validation for user input
 - ✅ Implement user authentication system with Supabase Auth
 - ✅ Add file upload validation for beats, merchandise, and NFTs
+- ✅ Connect project to Supabase instance
+- ✅ Set up database tables and storage buckets
+- ✅ Configure Row Level Security policies
 - Implement product detail pages for beats, merchandise, and NFTs
 - Add shopping cart functionality with Supabase
 - Implement search functionality

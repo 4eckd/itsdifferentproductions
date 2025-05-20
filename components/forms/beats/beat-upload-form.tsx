@@ -29,6 +29,7 @@ import {
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/contexts/auth-context";
 import { beatSchema, BeatFormValues } from "@/lib/validators/beats";
+import { uploadFile, generateFilePath } from "@/lib/storage-helpers";
 
 // Musical keys for dropdown
 const MUSICAL_KEYS = [
@@ -89,7 +90,7 @@ export function BeatUploadForm() {
     const file = e.target.files?.[0];
     if (file) {
       form.setValue("audioFile", file, { shouldValidate: true });
-      
+
       // Create audio preview URL
       const audioUrl = URL.createObjectURL(file);
       setAudioPreview(audioUrl);
@@ -101,7 +102,7 @@ export function BeatUploadForm() {
     const file = e.target.files?.[0];
     if (file) {
       form.setValue("coverImage", file, { shouldValidate: true });
-      
+
       // Create image preview URL
       const imageUrl = URL.createObjectURL(file);
       setCoverImagePreview(imageUrl);
@@ -133,43 +134,27 @@ export function BeatUploadForm() {
     }
 
     setIsLoading(true);
-    
+
     try {
       // 1. Upload audio file to Supabase Storage
-      const audioFileName = `${user.id}/${Date.now()}-${data.audioFile.name}`;
-      const { error: audioUploadError } = await supabase.storage
-        .from("audio_files")
-        .upload(audioFileName, data.audioFile);
-      
-      if (audioUploadError) {
-        throw new Error(`Error uploading audio: ${audioUploadError.message}`);
+      const audioFileName = generateFilePath(user.id, data.audioFile.name);
+      const audioUrl = await uploadFile(data.audioFile, "audio_files", audioFileName);
+
+      if (!audioUrl) {
+        throw new Error("Error uploading audio file");
       }
-      
-      // Get the public URL for the audio file
-      const { data: audioPublicUrl } = supabase.storage
-        .from("audio_files")
-        .getPublicUrl(audioFileName);
-      
+
       // 2. Upload cover image if provided
       let coverImageUrl = null;
       if (data.coverImage) {
-        const imageFileName = `${user.id}/${Date.now()}-${data.coverImage.name}`;
-        const { error: imageUploadError } = await supabase.storage
-          .from("product_images")
-          .upload(imageFileName, data.coverImage);
-        
-        if (imageUploadError) {
-          throw new Error(`Error uploading image: ${imageUploadError.message}`);
+        const imageFileName = generateFilePath(user.id, data.coverImage.name);
+        coverImageUrl = await uploadFile(data.coverImage, "product_images", imageFileName);
+
+        if (!coverImageUrl) {
+          throw new Error("Error uploading cover image");
         }
-        
-        // Get the public URL for the image
-        const { data: imagePublicUrl } = supabase.storage
-          .from("product_images")
-          .getPublicUrl(imageFileName);
-        
-        coverImageUrl = imagePublicUrl.publicUrl;
       }
-      
+
       // 3. Create product record
       const { data: product, error: productError } = await supabase
         .from("products")
@@ -189,11 +174,11 @@ export function BeatUploadForm() {
         })
         .select()
         .single();
-      
+
       if (productError) {
         throw new Error(`Error creating product: ${productError.message}`);
       }
-      
+
       // 4. Create beat record
       const { error: beatError } = await supabase
         .from("beats")
@@ -203,15 +188,15 @@ export function BeatUploadForm() {
           bpm: data.bpm,
           key: data.key,
           duration: 0, // This would be calculated from the audio file
-          audio_url: audioPublicUrl.publicUrl,
+          audio_url: audioUrl,
           license_type: data.licenseType,
           tags: data.tags,
         });
-      
+
       if (beatError) {
         throw new Error(`Error creating beat: ${beatError.message}`);
       }
-      
+
       toast.success("Beat uploaded successfully!");
       router.push(`/store/beats/${product.id}`);
     } catch (error: any) {
@@ -230,13 +215,13 @@ export function BeatUploadForm() {
           Share your music with the world
         </p>
       </div>
-      
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">Basic Information</h2>
-            
+
             <FormField
               control={form.control}
               name="title"
@@ -250,7 +235,7 @@ export function BeatUploadForm() {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="description"
@@ -258,17 +243,17 @@ export function BeatUploadForm() {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea 
-                      placeholder="Describe your beat" 
+                    <Textarea
+                      placeholder="Describe your beat"
                       className="min-h-[120px]"
-                      {...field} 
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -283,15 +268,15 @@ export function BeatUploadForm() {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="licenseType"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>License Type</FormLabel>
-                    <Select 
-                      onValueChange={field.onChange} 
+                    <Select
+                      onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
@@ -311,11 +296,11 @@ export function BeatUploadForm() {
               />
             </div>
           </div>
-          
+
           {/* Technical Details */}
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">Technical Details</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <FormField
                 control={form.control}
@@ -323,8 +308,8 @@ export function BeatUploadForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Genre</FormLabel>
-                    <Select 
-                      onValueChange={field.onChange} 
+                    <Select
+                      onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
@@ -344,7 +329,7 @@ export function BeatUploadForm() {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="bpm"
@@ -358,15 +343,15 @@ export function BeatUploadForm() {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="key"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Key</FormLabel>
-                    <Select 
-                      onValueChange={field.onChange} 
+                    <Select
+                      onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
@@ -387,7 +372,7 @@ export function BeatUploadForm() {
                 )}
               />
             </div>
-            
+
             <FormField
               control={form.control}
               name="tags"
@@ -395,9 +380,9 @@ export function BeatUploadForm() {
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="Enter tags separated by commas" 
-                      {...field} 
+                    <Input
+                      placeholder="Enter tags separated by commas"
+                      {...field}
                     />
                   </FormControl>
                   <FormDescription>
@@ -408,11 +393,11 @@ export function BeatUploadForm() {
               )}
             />
           </div>
-          
+
           {/* Files */}
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">Files</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Audio File Upload */}
               <FormItem>
@@ -474,7 +459,7 @@ export function BeatUploadForm() {
                   </FormMessage>
                 )}
               </FormItem>
-              
+
               {/* Cover Image Upload */}
               <FormItem>
                 <FormLabel>Cover Image (Optional)</FormLabel>
@@ -537,7 +522,7 @@ export function BeatUploadForm() {
               </FormItem>
             </div>
           </div>
-          
+
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? (
               <>
