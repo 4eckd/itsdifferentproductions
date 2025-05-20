@@ -120,11 +120,25 @@ itsdifferentproductions/
 ├── lib/                  # Utility functions
 │   ├── utils.ts          # Utility functions
 │   ├── supabase.ts       # Supabase client
+│   ├── database-helpers.ts # Database operation helpers
+│   ├── storage-helpers.ts  # Storage operation helpers
 │   └── validators/       # Zod validation schemas
 ├── types/                # TypeScript type definitions
 │   └── supabase.ts       # Supabase database types
 ├── public/               # Static assets
-└── styles/               # Additional styles
+├── styles/               # Additional styles
+├── supabase/             # Supabase configuration
+│   ├── schema.sql        # Database schema
+│   ├── schema-updates.sql # Schema enhancements
+│   └── storage.sql       # Storage configuration
+├── workflows/            # Workflow documentation
+│   ├── user-registration.md # User registration process
+│   ├── beat-upload.md    # Beat upload process
+│   └── payment-processing.md # Payment processing with NOW Payments
+└── .github/              # GitHub configuration
+    └── workflows/        # GitHub Actions workflows
+        ├── ci.yml        # Continuous Integration
+        └── sync-repository.yml # Repository synchronization
 ```
 
 ## Database Schema
@@ -288,6 +302,9 @@ This project is configured for deployment on Vercel. The `vercel.json` file cont
 - **2024-07-30**: Deployed project to Vercel with CI/CD pipeline
 - **2024-07-30**: Created helper functions for database and storage operations
 - **2024-07-30**: Updated documentation with deployment details
+- **2024-07-31**: Enhanced database schema with additional fields and tables
+- **2024-07-31**: Added workflows directory with process documentation
+- **2024-07-31**: Set up GitHub Actions for CI/CD and repository maintenance
 
 ## Future Plans
 
