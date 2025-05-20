@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Music, Shirt, Gem, Menu, X, Home, Search } from "lucide-react";
 import { useState, useEffect } from "react";
+import { ThemeSelector } from "@/components/theme-selector";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -117,6 +118,9 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* Theme Selector */}
+          <ThemeSelector />
+
           {/* Search Button - Desktop */}
           <Button variant="ghost" size="icon" className="hidden sm:flex">
             <Search className="h-5 w-5" />
@@ -240,7 +244,10 @@ export function SiteHeader() {
               <div className="border-t py-4 bg-muted/30">
                 <div className="container flex justify-between items-center">
                   <span className="text-sm text-muted-foreground">© {new Date().getFullYear()} IDP</span>
-                  <Button variant="outline" size="sm">Sign In</Button>
+                  <div className="flex items-center gap-2">
+                    <ThemeSelector />
+                    <Button variant="outline" size="sm">Sign In</Button>
+                  </div>
                 </div>
               </div>
             </motion.div>

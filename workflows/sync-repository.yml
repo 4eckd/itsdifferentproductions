@@ -1,0 +1,41 @@
+name: Sync Fork with Upstream
+
+on:
+  push:
+    branches:
+      - upstream-sync-trigger  # Fake trigger branch
+  schedule:
+    - cron: '0 3 * * *'        # Daily at 3AM UTC
+  workflow_dispatch:           # Manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the forked repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/4eckd/itsdifferentproductions.git
+          git fetch upstream
+
+      - name: Rebase onto upstream/main
+        run: |
+          git checkout main
+          git rebase upstream/main
+
+      - name: Push changes to fork
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} main --force-with-lease

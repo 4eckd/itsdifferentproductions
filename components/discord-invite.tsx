@@ -32,7 +32,7 @@ export function DiscordInvite() {
 
   const handleJoin = () => {
     // Open Discord invite in a new tab
-    window.open("https://discord.gg/itsdifferentproductions", "_blank");
+    window.open("https://discord.gg/m3WwmkMHAx", "_blank");
     handleDismiss();
   };
 
@@ -81,7 +81,7 @@ export function DiscordInvite() {
 
             {/* Content */}
             <div className="p-6">
-              <h4 className="text-lg font-semibold mb-2">Join the #40gang Community!</h4>
+              <h4 className="text-lg font-semibold mb-2">Join the #idp Community!</h4>
               <p className="text-muted-foreground mb-4">
                 Connect with other fans, get exclusive updates, and participate in special events in our Discord server.
               </p>

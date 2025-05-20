@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { AuthProvider } from '@/contexts/auth-context'
+import { ColorThemeProvider } from '@/contexts/theme-context'
 import { Toaster } from '@/components/ui/sonner'
 import { DiscordInvite } from '@/components/discord-invite'
 
@@ -25,11 +26,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>
-            {children}
-            <Toaster />
-            <DiscordInvite />
-          </AuthProvider>
+          <ColorThemeProvider>
+            <AuthProvider>
+              {children}
+              <Toaster />
+              <DiscordInvite />
+            </AuthProvider>
+          </ColorThemeProvider>
         </ThemeProvider>
       </body>
     </html>

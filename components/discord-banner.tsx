@@ -12,7 +12,7 @@ export function DiscordBanner() {
   };
 
   const handleJoin = () => {
-    window.open("https://discord.gg/itsdifferentproductions", "_blank");
+    window.open("https://discord.gg/m3WwmkMHAx", "_blank");
   };
 
   if (!isVisible) return null;
