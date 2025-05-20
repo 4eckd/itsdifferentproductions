@@ -3,6 +3,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { AuthProvider } from '@/contexts/auth-context'
 import { Toaster } from '@/components/ui/sonner'
+import { DiscordInvite } from '@/components/discord-invite'
 
 export const metadata: Metadata = {
   title: 'Its Different Productions',
@@ -27,6 +28,7 @@ export default function RootLayout({
           <AuthProvider>
             {children}
             <Toaster />
+            <DiscordInvite />
           </AuthProvider>
         </ThemeProvider>
       </body>

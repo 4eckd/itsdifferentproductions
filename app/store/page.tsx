@@ -2,10 +2,12 @@ import Link from "next/link";
 import { Music, Shirt, Gem, ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
+import { DiscordBanner } from "@/components/discord-banner";
 
 export default function StorePage() {
   return (
     <>
+      <DiscordBanner />
       {/* Hero Section */}
       <section className="relative py-16 sm:py-20 md:py-24 lg:py-28 overflow-hidden">
         {/* Background elements */}

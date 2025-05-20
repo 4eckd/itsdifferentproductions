@@ -13,7 +13,8 @@ import {
   Facebook,
   Linkedin,
   Music,
-  MessageCircle
+  MessageCircle,
+  MessageSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
@@ -174,6 +175,15 @@ export function SiteFooter({ className }: { className?: string }) {
                   aria-label="Telegram"
                 >
                   <MessageCircle className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://discord.gg/itsdifferentproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center h-10 w-10 rounded-full bg-[#5865F2]/10 text-[#5865F2] hover:bg-[#5865F2]/20 transition-colors"
+                  aria-label="Discord"
+                >
+                  <MessageSquare className="h-5 w-5" />
                 </a>
               </div>
             </div>
