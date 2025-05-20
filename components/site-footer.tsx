@@ -47,11 +47,11 @@ export function SiteFooter({ className }: { className?: string }) {
             <div className="lg:col-span-2">
               <Link href="/store" className="inline-block mb-4">
                 <span className="text-xl sm:text-2xl font-bold text-gradient">
-                  Its Different Productions
+                  Its Different Productions©
                 </span>
               </Link>
               <p className="text-muted-foreground max-w-md">
-                A #40gang Media Corporation providing premium beats, merchandise, and NFTs for artists and fans worldwide.
+                idp: a #40gang Media Corporation providing beats, merchandise, and NFTs for fans worldwide. Powered by Fused Gaming.
               </p>
 
               {/* Contact Info */}
@@ -66,13 +66,13 @@ export function SiteFooter({ className }: { className?: string }) {
                   <div className="flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 mr-3 group-hover:bg-primary/20 transition-colors">
                     <Phone className="h-4 w-4 text-primary" />
                   </div>
-                  <span>+1 (555) 123-4567</span>
+                  <span>+1 (916) 850-0327</span>
                 </a>
                 <div className="flex items-start text-sm text-muted-foreground hover:text-foreground transition-colors group">
                   <div className="flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 mr-3 mt-0.5 group-hover:bg-primary/20 transition-colors">
                     <MapPin className="h-4 w-4 text-primary" />
                   </div>
-                  <span>123 Beat Street, Los Angeles, CA 90001</span>
+                  <span>548 Market St, San Francisco, CA 94014</span>
                 </div>
               </div>
 
@@ -88,7 +88,7 @@ export function SiteFooter({ className }: { className?: string }) {
                   <Instagram className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://twitter.com"
+                  href="https://twitter.com/itsdifferentproductions"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
@@ -97,7 +97,7 @@ export function SiteFooter({ className }: { className?: string }) {
                   <Twitter className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://youtube.com"
+                  href="https://youtube.com/yaboybankz"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
@@ -193,13 +193,13 @@ export function SiteFooter({ className }: { className?: string }) {
       <div className="border-t border-border/50">
         <div className="container py-6 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-xs text-muted-foreground mb-4 sm:mb-0">
-            © {new Date().getFullYear()} Its Different Productions. All rights reserved.
+            © {new Date().getFullYear()} Its Different Productions© | All rights reserved.
           </p>
 
           <div className="flex items-center space-x-4 text-xs text-muted-foreground">
             <Link href="/terms" className="hover:text-foreground transition-colors">Terms</Link>
             <span className="text-muted-foreground/30">•</span>
-            <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
+            <Link href="/privacy" className="hover:text-foreground transition-colors">Returns</Link>
             <span className="text-muted-foreground/30">•</span>
             <Link href="/cookies" className="hover:text-foreground transition-colors">Cookies</Link>
           </div>

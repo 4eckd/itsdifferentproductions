@@ -19,13 +19,13 @@ export default function Home() {
                 </h1>
 
                 <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 sm:mb-10 max-w-xl sm:max-w-2xl mx-auto">
-                    Beats • Merchandise • NFTs
+                    Music • Merch • Digital Art
                 </p>
 
                 <Link href="/store" className="inline-block">
                     <Button
                         size="lg"
-                        className="h-auto px-8 py-4 sm:px-10 sm:py-5 text-base sm:text-lg font-bold rounded-full transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-glow"
+                        className="h-auto px-5 py-3 sm:px-6 sm:py-3 text-base sm:text-lg font-bold rounded-full transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-glow"
                     >
                         ENTER
                     </Button>
