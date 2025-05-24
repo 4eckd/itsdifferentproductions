@@ -1,0 +1,20 @@
+{
+  "name": "its-different-productions-docs",
+  "version": "1.0.0",
+  "description": "Documentation site for Its Different Productions",
+  "scripts": {
+    "build": "echo 'Documentation is static - no build needed'",
+    "dev": "python -m http.server 3001 --directory docs || python3 -m http.server 3001 --directory docs",
+    "preview": "python -m http.server 8080 --directory docs || python3 -m http.server 8080 --directory docs",
+    "validate": "node ../scripts/validate-docs.js",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["documentation", "beats", "marketplace", "music"],
+  "author": "Its Different Productions",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/itsdifferentproductions.git",
+    "directory": "docs"
+  }
+}

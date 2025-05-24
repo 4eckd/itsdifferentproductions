@@ -1,0 +1,95 @@
+{
+  "version": 2,
+  "name": "its-different-productions-docs",
+  "alias": ["docs.itsdifferentproductions.com"],
+  "regions": ["sfo1", "iad1"],
+  "builds": [
+    {
+      "src": "docs/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/docs/index.html"
+    },
+    {
+      "src": "/getting-started/(.*)",
+      "dest": "/docs/getting-started/$1.html"
+    },
+    {
+      "src": "/user-guides/(.*)",
+      "dest": "/docs/user-guides/$1.html"
+    },
+    {
+      "src": "/creator-guides/(.*)",
+      "dest": "/docs/creator-guides/$1.html"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/docs/api/$1.html"
+    },
+    {
+      "src": "/design-system/(.*)",
+      "dest": "/docs/design-system/$1.html"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/docs/admin/$1.html"
+    },
+    {
+      "src": "/deployment/(.*)",
+      "dest": "/docs/deployment/$1.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/docs/$1.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/docs/(.*).md",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/markdown; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/documentation/(.*)",
+      "destination": "/$1",
+      "permanent": true
+    }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
+}

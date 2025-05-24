@@ -1,0 +1,90 @@
+name: Deploy Documentation (Docs Branch)
+
+on:
+  push:
+    branches: [docs]
+    paths:
+      - 'docs/**'
+      - 'vercel-docs.json'
+      - 'package-docs.json'
+  pull_request:
+    branches: [docs]
+    paths:
+      - 'docs/**'
+  workflow_dispatch:
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_DOCS_PROJECT_ID }}
+
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout docs branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Validate documentation structure
+        run: |
+          echo "🔍 Validating documentation structure..."
+
+          # Check required files
+          required_files=("docs/index.md" "vercel-docs.json" "package-docs.json")
+          for file in "${required_files[@]}"; do
+            if [[ -f "$file" ]]; then
+              echo "✅ $file exists"
+            else
+              echo "❌ $file is missing"
+              exit 1
+            fi
+          done
+
+          # Check markdown files
+          find docs -name "*.md" -type f | while read file; do
+            echo "📄 Checking $file"
+            if ! grep -q "^# " "$file"; then
+              echo "⚠️ Warning: $file may be missing a main heading"
+            fi
+          done
+
+  deploy-docs:
+    runs-on: ubuntu-latest
+    needs: validate-docs
+    if: github.ref == 'refs/heads/docs'
+    environment: production
+    steps:
+      - name: Checkout docs branch
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Deploy to Vercel
+        run: |
+          vercel --token=${{ secrets.VERCEL_TOKEN }} \
+                 --config=vercel-docs.json \
+                 --prod \
+                 --confirm
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Create deployment summary
+        run: |
+          echo "## 📚 Documentation Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **URL**: https://docs.itsdifferentproductions.com" >> $GITHUB_STEP_SUMMARY
+          echo "📅 **Deployed**: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "📝 **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "🌿 **Branch**: docs" >> $GITHUB_STEP_SUMMARY
+
+      - name: Notify Discord
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"content":"📚 Documentation deployed from docs branch!\n🌐 https://docs.itsdifferentproductions.com\n⏰ '$(date)'"}' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }} || true

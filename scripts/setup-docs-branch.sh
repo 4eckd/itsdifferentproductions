@@ -15,7 +15,7 @@ NC='\033[0m'
 
 # Configuration
 DOCS_BRANCH="docs"
-MAIN_BRANCH="main"
+MAIN_BRANCH="master"
 DOCS_DIR="docs"
 VERCEL_JSON_DOCS="vercel-docs.json"
 
@@ -50,22 +50,22 @@ print_error() {
 # Check if we're in a git repository
 check_git_repo() {
     print_step "Checking Git repository..."
-    
+
     if ! git rev-parse --git-dir > /dev/null 2>&1; then
         print_error "Not in a Git repository. Please run this from your project root."
         exit 1
     fi
-    
+
     print_success "Git repository detected"
 }
 
 # Check current branch and status
 check_git_status() {
     print_step "Checking Git status..."
-    
+
     local current_branch=$(git branch --show-current)
     print_step "Current branch: $current_branch"
-    
+
     if [[ -n $(git status --porcelain) ]]; then
         print_warning "You have uncommitted changes. Consider committing them first."
         echo ""
@@ -77,14 +77,14 @@ check_git_status() {
             exit 1
         fi
     fi
-    
+
     print_success "Git status checked"
 }
 
 # Create docs branch if it doesn't exist
 create_docs_branch() {
     print_step "Setting up docs branch..."
-    
+
     # Check if docs branch already exists
     if git show-ref --verify --quiet refs/heads/$DOCS_BRANCH; then
         print_warning "Docs branch already exists"
@@ -97,19 +97,19 @@ create_docs_branch() {
             return 0
         fi
     fi
-    
+
     # Create new docs branch from main
     git checkout $MAIN_BRANCH
     git pull origin $MAIN_BRANCH 2>/dev/null || true
     git checkout -b $DOCS_BRANCH
-    
+
     print_success "Created docs branch from $MAIN_BRANCH"
 }
 
 # Configure docs branch for documentation-only deployment
 configure_docs_branch() {
     print_step "Configuring docs branch for documentation deployment..."
-    
+
     # Create docs-specific Vercel configuration
     cat > $VERCEL_JSON_DOCS << EOF
 {
@@ -215,7 +215,7 @@ EOF
 # Create docs-specific package.json
 create_docs_package() {
     print_step "Creating docs-specific package.json..."
-    
+
     cat > package-docs.json << EOF
 {
   "name": "its-different-productions-docs",
@@ -245,9 +245,9 @@ EOF
 # Create docs deployment workflow
 create_docs_workflow() {
     print_step "Creating docs-specific GitHub Actions workflow..."
-    
+
     mkdir -p .github/workflows
-    
+
     cat > .github/workflows/deploy-docs-branch.yml << EOF
 name: Deploy Documentation (Docs Branch)
 
@@ -283,7 +283,7 @@ jobs:
       - name: Validate documentation structure
         run: |
           echo "🔍 Validating documentation structure..."
-          
+
           # Check required files
           required_files=("docs/index.md" "vercel-docs.json" "package-docs.json")
           for file in "\${required_files[@]}"; do
@@ -294,7 +294,7 @@ jobs:
               exit 1
             fi
           done
-          
+
           # Check markdown files
           find docs -name "*.md" -type f | while read file; do
             echo "📄 Checking \$file"
@@ -347,7 +347,7 @@ EOF
 # Update environment configuration for docs branch
 update_env_for_docs() {
     print_step "Updating environment configuration for docs branch..."
-    
+
     # Update .env.local for docs branch
     if [[ -f ".env.local" ]]; then
         # Add docs branch specific variables
@@ -372,7 +372,7 @@ EOF
 # Create README for docs branch
 create_docs_readme() {
     print_step "Creating README for docs branch..."
-    
+
     cat > README-DOCS.md << EOF
 # Its Different Productions - Documentation Branch
 
@@ -449,7 +449,7 @@ EOF
 # Main execution
 main() {
     print_banner
-    
+
     check_git_repo
     check_git_status
     create_docs_branch
@@ -458,7 +458,7 @@ main() {
     create_docs_workflow
     update_env_for_docs
     create_docs_readme
-    
+
     # Commit the docs branch configuration
     git add .
     git commit -m "feat: setup docs branch for documentation deployment
@@ -468,9 +468,9 @@ main() {
 - Add GitHub Actions workflow for docs branch
 - Configure environment for docs deployment
 - Add documentation README"
-    
+
     print_success "Docs branch setup complete!"
-    
+
     echo ""
     echo -e "${GREEN}🎉 Documentation Branch Setup Complete!${NC}"
     echo ""
