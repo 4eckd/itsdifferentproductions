@@ -1,0 +1,66 @@
+# Augment Guidelines - Its Different Productions
+
+## 1. Cognitive Planning Phase
+- Analyze request scope and impact on existing codebase
+- Assess upstream/downstream dependencies before signature changes
+- Plan minimum viable complexity to meet explicit requirements
+- Identify potential implementation obstacles upfront
+- Maintain a docs subdomain for all docs.itsdifferentproductions.com
+
+## 2. Core Architecture Standards
+**Tech Stack**: Next.js 15, React 19, TypeScript, Tailwind CSS, Supabase
+**File Structure**: PascalCase components, camelCase hooks/utils, kebab-case routes
+**Component Pattern**: Functional components, TypeScript interfaces, single responsibility
+
+## 3. Development Workflow
+**Planning**: Detailed analysis before coding, structured output format
+**Implementation**: Minimum necessary complexity, avoid gold-plating
+**Verification**: Self-check against requirements and quality standards
+**Problem Solving**: Autonomous error resolution before user intervention
+
+## 4. Code Quality Requirements
+- Strict TypeScript with proper interfaces
+- shadcn/ui components with 6-theme support (Default/Purple/Blue/Green/Amber/Red)
+- Supabase integration with RLS and proper error handling
+- react-hook-form + Zod validation for all forms
+- Framer Motion for animations, accessibility-first design
+
+## 5. Security & Performance
+- Input validation with Zod schemas, always maintain .env & .env.local and any other secret files
+- Supabase Auth with secure session management
+- Next.js Image optimization, dynamic imports
+- File upload restrictions (type/size/dimensions)
+- Environment variables for secrets
+
+## 6. UI/UX Standards
+- Mobile-first responsive design
+- CSS variables for theming
+- Semantic HTML with ARIA attributes
+- Loading states and error boundaries
+- Consistent spacing with Tailwind scale
+
+## 7. Database & Backend
+- Row Level Security (RLS) for all tables
+- Database helpers in `lib/database-helpers.ts`
+- Storage helpers in `lib/storage-helpers.ts`
+- TypeScript types from Supabase schema
+- Graceful error handling for all async operations
+
+## 8. Verification Checklist
+- [ ] TypeScript strict compliance
+- [ ] Component properly typed and tested
+- [ ] Mobile responsive across all themes
+- [ ] Accessibility requirements met
+- [ ] Error handling implemented
+- [ ] Loading states provided
+- [ ] Security considerations addressed
+- [ ] Performance optimized
+- [ ] Documentation updated
+
+## 9. Suggestions for Future Enhancement
+- Advanced caching strategies for better performance
+- Comprehensive testing suite with E2E coverage
+- Advanced analytics and monitoring integration
+- Progressive Web App (PWA) capabilities
+- Advanced SEO optimization techniques
+- Internationalization (i18n) support preparation
