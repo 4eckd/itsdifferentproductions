@@ -25,6 +25,9 @@
 ### 🚀 Live Demo
 **[Visit Its Different Productions →](https://itsdifferentproductions.vercel.app)**
 
+### 📚 Documentation
+**[View Documentation →](https://docs.itsdifferentproductions.com)**
+
 ---
 
 ## 💝 Support the Project
@@ -347,8 +350,8 @@ This project is configured for deployment on Vercel. The `vercel.json` file cont
 ### 🚀 **Enhancement Phase** (May 2025)
 ![Theming](https://img.shields.io/badge/✅-6%20Color%20Themes-green) ![Security](https://img.shields.io/badge/✅-RLS%20Policies-green) ![Documentation](https://img.shields.io/badge/✅-Comprehensive%20Docs-green)
 
-### 🎯 **Current Phase** (May 2025)
-![E-commerce](https://img.shields.io/badge/🔄-E-commerce%20Features-yellow) ![Payments](https://img.shields.io/badge/🔄-Payment%20Integration-yellow) ![Admin](https://img.shields.io/badge/🔄-Admin%20Dashboard-yellow)
+### 🎯 **Current Phase** (January 2025)
+![Docs](https://img.shields.io/badge/✅-Documentation%20Site-green) ![E-commerce](https://img.shields.io/badge/🔄-E-commerce%20Features-yellow) ![Payments](https://img.shields.io/badge/🔄-Payment%20Integration-yellow) ![Admin](https://img.shields.io/badge/🔄-Admin%20Dashboard-yellow)
 
 </div>
 
@@ -393,6 +396,8 @@ For a detailed overview of the current project status, completed features, and u
 - [x] **Validation**: Comprehensive form validation
 - [x] **Responsive**: Mobile-first design
 - [x] **Documentation**: Complete project docs
+- [x] **Docs Site**: Deployed documentation at docs.itsdifferentproductions.com
+- [x] **CI/CD**: Automated deployment pipeline with docs branch strategy
 
 ### 🔄 **In Progress**
 - [ ] **Product Pages**: Detailed beat/merch/NFT pages
