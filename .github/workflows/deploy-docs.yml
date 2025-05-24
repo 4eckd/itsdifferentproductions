@@ -17,7 +17,7 @@ on:
       force_deploy:
         description: 'Force deployment even if no changes detected'
         required: false
-        default: 'false'
+        default: false
         type: boolean
       dns_provider:
         description: 'DNS Provider to use'
@@ -154,11 +154,11 @@ jobs:
               repo: context.repo.repo,
               ref: context.sha
             });
-            
+
             if (deployments.length > 0) {
               const previewUrl = `https://docs-${context.sha.substring(0, 7)}.vercel.app`;
               const comment = `📚 Documentation preview deployed!\n\n🔗 Preview URL: ${previewUrl}\n\n*This preview will be available until the PR is merged or closed.*`;
-              
+
               github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
@@ -191,19 +191,42 @@ jobs:
 
       - name: Create environment file
         run: |
-          cat > .env.dns << EOF
+          cat > .env.local << EOF
+          # Core Application
+          NEXT_PUBLIC_APP_URL=https://itsdifferentproductions.vercel.app
+          NEXT_PUBLIC_DOCS_URL=https://docs.itsdifferentproductions.com
+          NODE_ENV=production
+          NEXT_PUBLIC_ENVIRONMENT=production
+
+          # Supabase Configuration
+          NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+          # Vercel Configuration
           VERCEL_TOKEN=${{ secrets.VERCEL_TOKEN }}
-          VERCEL_TEAM_ID=${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID=${{ secrets.VERCEL_DOCS_PROJECT_ID }}
+          VERCEL_ORG_ID=${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID=${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_DOCS_PROJECT_ID=${{ secrets.VERCEL_DOCS_PROJECT_ID }}
+
+          # DNS Configuration
           DNS_PROVIDER=${{ github.event.inputs.dns_provider || 'vercel' }}
           DOMAIN=itsdifferentproductions.com
-          SUBDOMAIN=docs
-          FULL_DOMAIN=docs.itsdifferentproductions.com
+          DOCS_SUBDOMAIN=docs
+          DOCS_DOMAIN=docs.itsdifferentproductions.com
+
+          # Cloudflare Configuration
           CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}
           CLOUDFLARE_API_KEY=${{ secrets.CLOUDFLARE_API_KEY }}
           CLOUDFLARE_ZONE_ID=${{ secrets.CLOUDFLARE_ZONE_ID }}
+
+          # Notifications
           SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL }}
           DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}
+
+          # Donation
+          SOLANA_DONATION_ADDRESS=h4shed.sol
+          DONATION_ENABLED=true
           EOF
 
       - name: Deploy documentation site
@@ -265,7 +288,7 @@ jobs:
       - name: Health check
         run: |
           echo "🔍 Performing health check..."
-          
+
           # Check if site is accessible
           if curl -f -s -o /dev/null https://docs.itsdifferentproductions.com; then
             echo "✅ Site is accessible"
@@ -273,7 +296,7 @@ jobs:
             echo "❌ Site is not accessible"
             exit 1
           fi
-          
+
           # Check if main pages exist
           pages=("/" "/getting-started/quick-start" "/api/overview" "/design-system/theming")
           for page in "${pages[@]}"; do
@@ -287,11 +310,11 @@ jobs:
       - name: Performance check
         run: |
           echo "⚡ Checking site performance..."
-          
+
           # Simple performance check
           response_time=$(curl -o /dev/null -s -w '%{time_total}' https://docs.itsdifferentproductions.com)
           echo "Response time: ${response_time}s"
-          
+
           if (( $(echo "$response_time < 3.0" | bc -l) )); then
             echo "✅ Performance check passed"
           else

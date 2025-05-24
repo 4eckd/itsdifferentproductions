@@ -15,13 +15,27 @@ const CONFIG = {
   subdomain: 'docs',
   fullDomain: 'docs.itsdifferentproductions.com',
   vercelTarget: 'cname.vercel-dns.com',
-  // Add your DNS provider API credentials here
-  dnsProvider: process.env.DNS_PROVIDER || 'vercel', // vercel, cloudflare, namecheap, etc.
-  apiKey: process.env.DNS_API_KEY,
-  apiSecret: process.env.DNS_API_SECRET,
+  // DNS provider configuration
+  dnsProvider: process.env.DNS_PROVIDER || 'vercel',
+
+  // Vercel configuration
   vercelToken: process.env.VERCEL_TOKEN,
-  vercelTeamId: process.env.VERCEL_TEAM_ID,
-  vercelProjectId: process.env.VERCEL_PROJECT_ID
+  vercelTeamId: process.env.VERCEL_ORG_ID,
+  vercelProjectId: process.env.VERCEL_DOCS_PROJECT_ID,
+
+  // Cloudflare configuration
+  cloudflareEmail: process.env.CLOUDFLARE_EMAIL,
+  cloudflareApiKey: process.env.CLOUDFLARE_API_KEY,
+  cloudflareZoneId: process.env.CLOUDFLARE_ZONE_ID,
+
+  // Namecheap configuration
+  namecheapApiUser: process.env.NAMECHEAP_API_USER,
+  namecheapApiKey: process.env.NAMECHEAP_API_KEY,
+  namecheapClientIp: process.env.NAMECHEAP_CLIENT_IP,
+
+  // GoDaddy configuration
+  godaddyApiKey: process.env.GODADDY_API_KEY,
+  godaddyApiSecret: process.env.GODADDY_API_SECRET
 };
 
 class DNSConfigurator {
@@ -41,7 +55,7 @@ class DNSConfigurator {
   log(message, level = 'INFO') {
     const timestamp = new Date().toISOString();
     const logMessage = `[${timestamp}] [${level}] ${message}\n`;
-    
+
     console.log(logMessage.trim());
     fs.appendFileSync(this.logFile, logMessage);
   }
@@ -62,18 +76,18 @@ class DNSConfigurator {
       });
 
       req.on('error', reject);
-      
+
       if (data) {
         req.write(JSON.stringify(data));
       }
-      
+
       req.end();
     });
   }
 
   async setupVercelDomain() {
     this.log('Setting up Vercel domain configuration...');
-    
+
     if (!this.config.vercelToken) {
       throw new Error('VERCEL_TOKEN environment variable is required');
     }
@@ -95,7 +109,7 @@ class DNSConfigurator {
 
     try {
       const response = await this.makeRequest(addDomainOptions, domainData);
-      
+
       if (response.status === 200 || response.status === 409) {
         this.log(`Domain ${this.config.fullDomain} added to Vercel project`);
         return response.data;
@@ -110,7 +124,7 @@ class DNSConfigurator {
 
   async configureVercelDNS() {
     this.log('Configuring Vercel DNS records...');
-    
+
     // Get domain configuration from Vercel
     const getDomainOptions = {
       hostname: 'api.vercel.com',
@@ -123,7 +137,7 @@ class DNSConfigurator {
 
     try {
       const response = await this.makeRequest(getDomainOptions);
-      
+
       if (response.status === 200) {
         this.log('Vercel DNS configuration retrieved successfully');
         return response.data;
@@ -138,31 +152,37 @@ class DNSConfigurator {
 
   async configureCloudflare() {
     this.log('Configuring Cloudflare DNS...');
-    
-    if (!this.config.apiKey || !this.config.apiSecret) {
+
+    if (!this.config.cloudflareEmail || !this.config.cloudflareApiKey) {
       throw new Error('Cloudflare API credentials required');
     }
 
-    // Get zone ID
-    const getZoneOptions = {
-      hostname: 'api.cloudflare.com',
-      path: `/client/v4/zones?name=${this.config.domain}`,
-      method: 'GET',
-      headers: {
-        'X-Auth-Email': this.config.apiKey,
-        'X-Auth-Key': this.config.apiSecret,
-        'Content-Type': 'application/json'
+    // Get zone ID if not provided
+    let zoneId = this.config.cloudflareZoneId;
+
+    if (!zoneId) {
+      const getZoneOptions = {
+        hostname: 'api.cloudflare.com',
+        path: `/client/v4/zones?name=${this.config.domain}`,
+        method: 'GET',
+        headers: {
+          'X-Auth-Email': this.config.cloudflareEmail,
+          'X-Auth-Key': this.config.cloudflareApiKey,
+          'Content-Type': 'application/json'
+        }
+      };
+
+      const zoneResponse = await this.makeRequest(getZoneOptions);
+
+      if (!zoneResponse.data.success || zoneResponse.data.result.length === 0) {
+        throw new Error('Domain not found in Cloudflare');
       }
-    };
 
-    const zoneResponse = await this.makeRequest(getZoneOptions);
-    
-    if (!zoneResponse.data.success || zoneResponse.data.result.length === 0) {
-      throw new Error('Domain not found in Cloudflare');
+      zoneId = zoneResponse.data.result[0].id;
+      this.log(`Found Cloudflare zone ID: ${zoneId}`);
+    } else {
+      this.log(`Using provided Cloudflare zone ID: ${zoneId}`);
     }
-
-    const zoneId = zoneResponse.data.result[0].id;
-    this.log(`Found Cloudflare zone ID: ${zoneId}`);
 
     // Create CNAME record
     const createRecordOptions = {
@@ -170,8 +190,8 @@ class DNSConfigurator {
       path: `/client/v4/zones/${zoneId}/dns_records`,
       method: 'POST',
       headers: {
-        'X-Auth-Email': this.config.apiKey,
-        'X-Auth-Key': this.config.apiSecret,
+        'X-Auth-Email': this.config.cloudflareEmail,
+        'X-Auth-Key': this.config.cloudflareApiKey,
         'Content-Type': 'application/json'
       }
     };
@@ -184,7 +204,7 @@ class DNSConfigurator {
     };
 
     const recordResponse = await this.makeRequest(createRecordOptions, recordData);
-    
+
     if (recordResponse.data.success) {
       this.log(`CNAME record created successfully for ${this.config.fullDomain}`);
       return recordResponse.data.result;
@@ -195,12 +215,12 @@ class DNSConfigurator {
 
   async configureNamecheap() {
     this.log('Configuring Namecheap DNS...');
-    
+
     // Note: Namecheap API requires XML format and different authentication
     // This is a simplified example - you may need to adjust based on your setup
-    
+
     const apiUrl = `https://api.namecheap.com/xml.response?ApiUser=${this.config.apiKey}&ApiKey=${this.config.apiSecret}&UserName=${this.config.apiKey}&Command=namecheap.domains.dns.setHosts&ClientIp=YOUR_IP&SLD=${this.config.domain.split('.')[0]}&TLD=${this.config.domain.split('.')[1]}&HostName1=${this.config.subdomain}&RecordType1=CNAME&Address1=${this.config.vercelTarget}&TTL1=1800`;
-    
+
     this.log('Namecheap DNS configuration requires manual setup or XML API integration');
     this.log(`Please add the following CNAME record manually:`);
     this.log(`Host: ${this.config.subdomain}`);
@@ -238,10 +258,10 @@ class DNSConfigurator {
 
     const instructionsFile = path.join(__dirname, '../docs/dns-instructions.md');
     let content = `# DNS Configuration Instructions for ${this.config.fullDomain}\n\n`;
-    
+
     content += `## Automatic Configuration\n\n`;
     content += `This script attempted to configure DNS automatically. If manual configuration is needed, use the instructions below.\n\n`;
-    
+
     Object.entries(instructions).forEach(([provider, config]) => {
       content += `## ${provider.charAt(0).toUpperCase() + provider.slice(1)}\n\n`;
       content += `\`\`\`\n`;
@@ -268,9 +288,9 @@ class DNSConfigurator {
 
   async verifyDNS() {
     this.log('Verifying DNS configuration...');
-    
+
     const { exec } = require('child_process');
-    
+
     return new Promise((resolve) => {
       exec(`nslookup ${this.config.fullDomain}`, (error, stdout, stderr) => {
         if (error) {
@@ -288,10 +308,10 @@ class DNSConfigurator {
   async run() {
     try {
       this.log('Starting DNS configuration for docs.itsdifferentproductions.com');
-      
+
       // Step 1: Setup Vercel domain
       await this.setupVercelDomain();
-      
+
       // Step 2: Configure DNS based on provider
       switch (this.config.dnsProvider.toLowerCase()) {
         case 'vercel':
@@ -307,29 +327,29 @@ class DNSConfigurator {
           this.log(`Unsupported DNS provider: ${this.config.dnsProvider}`, 'WARN');
           break;
       }
-      
+
       // Step 3: Generate manual instructions
       this.generateDNSInstructions();
-      
+
       // Step 4: Wait and verify
       this.log('Waiting 30 seconds for DNS propagation...');
       await new Promise(resolve => setTimeout(resolve, 30000));
-      
+
       const verified = await this.verifyDNS();
-      
+
       if (verified) {
         this.log('DNS configuration completed successfully!', 'SUCCESS');
       } else {
         this.log('DNS configuration may need more time to propagate', 'WARN');
       }
-      
+
       // Step 5: Output next steps
       this.log('\n=== NEXT STEPS ===');
       this.log('1. Wait 5-30 minutes for full DNS propagation');
       this.log('2. Visit https://docs.itsdifferentproductions.com to verify');
       this.log('3. Check Vercel dashboard for SSL certificate status');
       this.log('4. Deploy documentation files to the domain');
-      
+
     } catch (error) {
       this.log(`DNS configuration failed: ${error.message}`, 'ERROR');
       this.log('Please check the generated instructions for manual setup');

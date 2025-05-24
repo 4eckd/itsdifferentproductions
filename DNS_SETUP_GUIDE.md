@@ -25,11 +25,11 @@ This script will:
 # 1. Install dependencies
 npm install
 
-# 2. Copy environment template
-cp .env.dns.example .env.dns
+# 2. Copy environment template (if not already done)
+cp .env.local.example .env.local
 
-# 3. Edit .env.dns with your values
-nano .env.dns
+# 3. Edit .env.local with your values
+nano .env.local
 
 # 4. Run DNS configuration
 node scripts/setup-docs-dns.js
@@ -147,7 +147,7 @@ TTL: 1 Hour
 
 ### Required Environment Variables
 
-Create `.env.dns` file with these values:
+Update your `.env.local` file with these values:
 
 ```bash
 # Vercel Configuration (Required)
@@ -295,7 +295,7 @@ Please provide:
 
 ```bash
 # Update environment file
-nano .env.dns
+nano .env.local
 
 # Change DNS_PROVIDER value
 # Re-run configuration
