@@ -1,0 +1,212 @@
+{
+  "site": {
+    "name": "Its Different Productions Docs",
+    "description": "Comprehensive documentation for the Its Different Productions platform",
+    "url": "https://docs.itsdifferentproductions.com",
+    "logo": "/logo.svg",
+    "favicon": "/favicon.ico"
+  },
+  "navigation": [
+    {
+      "title": "Getting Started",
+      "items": [
+        {
+          "title": "Quick Start",
+          "href": "/getting-started/quick-start"
+        },
+        {
+          "title": "Installation",
+          "href": "/getting-started/installation"
+        },
+        {
+          "title": "Configuration",
+          "href": "/getting-started/configuration"
+        },
+        {
+          "title": "First Steps",
+          "href": "/getting-started/first-steps"
+        }
+      ]
+    },
+    {
+      "title": "User Guides",
+      "items": [
+        {
+          "title": "Account Management",
+          "href": "/user-guides/account-management"
+        },
+        {
+          "title": "Buying Beats",
+          "href": "/user-guides/buying-beats"
+        },
+        {
+          "title": "Purchasing Merchandise",
+          "href": "/user-guides/purchasing-merchandise"
+        },
+        {
+          "title": "NFT Collection",
+          "href": "/user-guides/nft-collection"
+        },
+        {
+          "title": "Profile Settings",
+          "href": "/user-guides/profile-settings"
+        }
+      ]
+    },
+    {
+      "title": "Creator Guides",
+      "items": [
+        {
+          "title": "Uploading Beats",
+          "href": "/creator-guides/uploading-beats"
+        },
+        {
+          "title": "Managing Products",
+          "href": "/creator-guides/managing-products"
+        },
+        {
+          "title": "Analytics Dashboard",
+          "href": "/creator-guides/analytics-dashboard"
+        },
+        {
+          "title": "Revenue Management",
+          "href": "/creator-guides/revenue-management"
+        }
+      ]
+    },
+    {
+      "title": "API Reference",
+      "items": [
+        {
+          "title": "Overview",
+          "href": "/api/overview"
+        },
+        {
+          "title": "Authentication",
+          "href": "/api/authentication"
+        },
+        {
+          "title": "Database Schema",
+          "href": "/api/database-schema"
+        },
+        {
+          "title": "File Upload",
+          "href": "/api/file-upload"
+        },
+        {
+          "title": "Webhooks",
+          "href": "/api/webhooks"
+        }
+      ]
+    },
+    {
+      "title": "Design System",
+      "items": [
+        {
+          "title": "Components",
+          "href": "/design-system/components"
+        },
+        {
+          "title": "Theming",
+          "href": "/design-system/theming"
+        },
+        {
+          "title": "Typography",
+          "href": "/design-system/typography"
+        },
+        {
+          "title": "Colors",
+          "href": "/design-system/colors"
+        }
+      ]
+    },
+    {
+      "title": "Administration",
+      "items": [
+        {
+          "title": "Dashboard",
+          "href": "/admin/dashboard"
+        },
+        {
+          "title": "User Management",
+          "href": "/admin/user-management"
+        },
+        {
+          "title": "Content Moderation",
+          "href": "/admin/content-moderation"
+        },
+        {
+          "title": "Analytics",
+          "href": "/admin/analytics"
+        }
+      ]
+    },
+    {
+      "title": "Deployment",
+      "items": [
+        {
+          "title": "Production Setup",
+          "href": "/deployment/production"
+        },
+        {
+          "title": "Environment Variables",
+          "href": "/deployment/environment"
+        },
+        {
+          "title": "CI/CD Pipeline",
+          "href": "/deployment/ci-cd"
+        },
+        {
+          "title": "Monitoring",
+          "href": "/deployment/monitoring"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "links": [
+      {
+        "title": "Resources",
+        "items": [
+          {
+            "title": "GitHub",
+            "href": "https://github.com/yourusername/itsdifferentproductions"
+          },
+          {
+            "title": "Discord",
+            "href": "https://discord.gg/yourinvite"
+          },
+          {
+            "title": "Support",
+            "href": "mailto:support@itsdifferentproductions.com"
+          }
+        ]
+      },
+      {
+        "title": "Platform",
+        "items": [
+          {
+            "title": "Main Site",
+            "href": "https://itsdifferentproductions.vercel.app"
+          },
+          {
+            "title": "API Status",
+            "href": "https://status.itsdifferentproductions.com"
+          },
+          {
+            "title": "Changelog",
+            "href": "/changelog"
+          }
+        ]
+      }
+    ]
+  },
+  "search": {
+    "enabled": true,
+    "placeholder": "Search documentation..."
+  },
+  "theme": {
+    "primaryColor": "#6366f1",
+    "darkMode": true
+  }
+}

@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "docs:dev": "next dev --port 3001",
+    "docs:build": "next build && next export",
+    "docs:start": "next start --port 3001"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

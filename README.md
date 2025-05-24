@@ -338,16 +338,16 @@ This project is configured for deployment on Vercel. The `vercel.json` file cont
 
 <div align="center">
 
-### 🏗️ **Foundation Phase** (May 2024)
+### 🏗️ **Foundation Phase** (Dec 2024)
 ![Setup](https://img.shields.io/badge/✅-Project%20Setup-green) ![Components](https://img.shields.io/badge/✅-UI%20Components-green) ![Responsive](https://img.shields.io/badge/✅-Responsive%20Design-green)
 
-### 🔧 **Integration Phase** (June 2024)
+### 🔧 **Integration Phase** (May 2025)
 ![Database](https://img.shields.io/badge/✅-Supabase%20Integration-green) ![Auth](https://img.shields.io/badge/✅-Authentication-green) ![Validation](https://img.shields.io/badge/✅-Form%20Validation-green)
 
-### 🚀 **Enhancement Phase** (July 2024)
+### 🚀 **Enhancement Phase** (May 2025)
 ![Theming](https://img.shields.io/badge/✅-6%20Color%20Themes-green) ![Security](https://img.shields.io/badge/✅-RLS%20Policies-green) ![Documentation](https://img.shields.io/badge/✅-Comprehensive%20Docs-green)
 
-### 🎯 **Current Phase** (December 2024)
+### 🎯 **Current Phase** (May 2025)
 ![E-commerce](https://img.shields.io/badge/🔄-E-commerce%20Features-yellow) ![Payments](https://img.shields.io/badge/🔄-Payment%20Integration-yellow) ![Admin](https://img.shields.io/badge/🔄-Admin%20Dashboard-yellow)
 
 </div>
@@ -373,14 +373,14 @@ For a detailed overview of the current project status, completed features, and u
 
 <div align="center">
 
-### 🎯 **Current Sprint** (December 2024)
+### 🎯 **Current Sprint** (May 2025)
 ![E-commerce](https://img.shields.io/badge/🛍️-E--commerce%20Core-yellow) ![Payments](https://img.shields.io/badge/💳-Payment%20Integration-yellow) ![Admin](https://img.shields.io/badge/👨‍💼-Admin%20Dashboard-yellow)
 
-### 🚀 **Next Quarter** (Q1 2025)
+### 🚀 **Next Quarter** (Q3 2025)
 ![Player](https://img.shields.io/badge/🎵-Music%20Player-blue) ![NFT](https://img.shields.io/badge/🖼️-NFT%20Minting-blue) ![Mobile](https://img.shields.io/badge/📱-Mobile%20App-blue)
 
 ### 🌟 **Future Vision** (2025+)
-![AI](https://img.shields.io/badge/🤖-AI%20Recommendations-purple) ![Web3](https://img.shields.io/badge/🌐-Full%20Web3%20Integration-purple) ![Global](https://img.shields.io/badge/🌍-Internationalization-purple)
+![AI](https://img.shields.io/badge/🤖-AI%20Recommendations-purple) ![Web3 Funding Opportunities](https://img.shields.io/badge/🌐-Full%20Web3%20Integration-purple) ![Global](https://img.shields.io/badge/🌍-Internationalization-purple)
 
 </div>
 
@@ -424,8 +424,8 @@ For a detailed overview of the current project status, completed features, and u
 
 1. **Fork & Clone**
    ```bash
-   git clone https://github.com/yourusername/itsdifferentproductions.git
-   cd itsdifferentproductions
+   git clone https://github.com/jlucus/idp.git
+   cd idp
    ```
 
 2. **Setup Environment**
@@ -493,8 +493,8 @@ h4shed.sol
 
 **Made with ❤️ by the Its Different Productions Team**
 
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/yourusername/itsdifferentproductions)
-[![Discord](https://img.shields.io/badge/Discord-Community-5865f2?logo=discord)](https://discord.gg/yourinvite)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/jlucus/idp)
+[![Discord](https://img.shields.io/badge/Discord-Community-5865f2?logo=discord)](https://discord.gg/MDSAnPBewd)
 [![Website](https://img.shields.io/badge/Website-Live-brightgreen)](https://itsdifferentproductions.vercel.app)
 
 </div>
