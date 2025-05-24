@@ -53,7 +53,7 @@ export default function StorePage() {
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold mb-3">Beats</h3>
                 <p className="text-muted-foreground mb-8 flex-grow">
-                  Premium beats for artists, producers, and content creators.
+                  Purchase or license a beat for use in your audio streams.
                 </p>
                 <Link href="/store/beats" className="w-full mt-auto">
                   <Button className="w-full group" size="lg">
