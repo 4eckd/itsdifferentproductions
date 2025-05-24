@@ -1,50 +1,43 @@
 {
   "version": 2,
-  "name": "its-different-productions-docs",
-  "alias": ["docs.itsdifferentproductions.com"],
-  "regions": ["sfo1", "iad1"],
   "builds": [
     {
       "src": "docs/**",
       "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/",
-      "dest": "/docs/index.html"
+      "source": "/",
+      "destination": "/docs/index.html"
     },
     {
-      "src": "/getting-started/(.*)",
-      "dest": "/docs/getting-started/$1.html"
+      "source": "/getting-started/(.*)",
+      "destination": "/docs/getting-started/$1.html"
     },
     {
-      "src": "/user-guides/(.*)",
-      "dest": "/docs/user-guides/$1.html"
+      "source": "/user-guides/(.*)",
+      "destination": "/docs/user-guides/$1.html"
     },
     {
-      "src": "/creator-guides/(.*)",
-      "dest": "/docs/creator-guides/$1.html"
+      "source": "/creator-guides/(.*)",
+      "destination": "/docs/creator-guides/$1.html"
     },
     {
-      "src": "/api/(.*)",
-      "dest": "/docs/api/$1.html"
+      "source": "/api/(.*)",
+      "destination": "/docs/api/$1.html"
     },
     {
-      "src": "/design-system/(.*)",
-      "dest": "/docs/design-system/$1.html"
+      "source": "/design-system/(.*)",
+      "destination": "/docs/design-system/$1.html"
     },
     {
-      "src": "/admin/(.*)",
-      "dest": "/docs/admin/$1.html"
+      "source": "/admin/(.*)",
+      "destination": "/docs/admin/$1.html"
     },
     {
-      "src": "/deployment/(.*)",
-      "dest": "/docs/deployment/$1.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/docs/$1.html"
+      "source": "/deployment/(.*)",
+      "destination": "/docs/deployment/$1.html"
     }
   ],
   "headers": [
