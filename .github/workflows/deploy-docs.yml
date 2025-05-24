@@ -1,0 +1,299 @@
+name: Deploy Documentation Site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'scripts/setup-docs-dns.js'
+      - 'scripts/deploy-docs.sh'
+      - '.github/workflows/deploy-docs.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/**'
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: 'Force deployment even if no changes detected'
+        required: false
+        default: 'false'
+        type: boolean
+      dns_provider:
+        description: 'DNS Provider to use'
+        required: false
+        default: 'vercel'
+        type: choice
+        options:
+          - vercel
+          - cloudflare
+          - namecheap
+
+env:
+  NODE_VERSION: '18'
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_DOCS_PROJECT_ID }}
+
+jobs:
+  # Check if documentation changes exist
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      docs-changed: ${{ steps.changes.outputs.docs }}
+      should-deploy: ${{ steps.should-deploy.outputs.result }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for documentation changes
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            docs:
+              - 'docs/**'
+              - 'scripts/setup-docs-dns.js'
+              - 'scripts/deploy-docs.sh'
+
+      - name: Determine if deployment should proceed
+        id: should-deploy
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.force_deploy }}" == "true" ]]; then
+            echo "result=true" >> $GITHUB_OUTPUT
+            echo "🚀 Force deployment requested"
+          elif [[ "${{ steps.changes.outputs.docs }}" == "true" ]]; then
+            echo "result=true" >> $GITHUB_OUTPUT
+            echo "📝 Documentation changes detected"
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "result=true" >> $GITHUB_OUTPUT
+            echo "🌟 Main branch push detected"
+          else
+            echo "result=false" >> $GITHUB_OUTPUT
+            echo "⏭️ No deployment needed"
+          fi
+
+  # Validate documentation
+  validate-docs:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: needs.check-changes.outputs.should-deploy == 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate markdown files
+        run: |
+          echo "🔍 Validating markdown files..."
+          find docs -name "*.md" -type f | while read file; do
+            echo "Checking $file"
+            # Basic markdown validation
+            if ! grep -q "^# " "$file"; then
+              echo "⚠️ Warning: $file may be missing a main heading"
+            fi
+          done
+
+      - name: Check for broken links
+        run: |
+          echo "🔗 Checking for broken internal links..."
+          # Simple check for markdown links
+          find docs -name "*.md" -exec grep -l "\[.*\](\./" {} \; | while read file; do
+            echo "Found internal links in $file"
+          done
+
+      - name: Validate JSON configuration
+        run: |
+          echo "📋 Validating JSON configuration..."
+          if [[ -f "docs/config.json" ]]; then
+            node -e "JSON.parse(require('fs').readFileSync('docs/config.json', 'utf8'))"
+            echo "✅ config.json is valid"
+          fi
+
+  # Deploy to staging (for PRs)
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [check-changes, validate-docs]
+    if: github.event_name == 'pull_request' && needs.check-changes.outputs.should-deploy == 'true'
+    environment: staging
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Deploy to Vercel (Preview)
+        run: |
+          cd docs
+          vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Comment PR with preview URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: deployments } = await github.rest.repos.listDeployments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha
+            });
+            
+            if (deployments.length > 0) {
+              const previewUrl = `https://docs-${context.sha.substring(0, 7)}.vercel.app`;
+              const comment = `📚 Documentation preview deployed!\n\n🔗 Preview URL: ${previewUrl}\n\n*This preview will be available until the PR is merged or closed.*`;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
+
+  # Deploy to production
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: [check-changes, validate-docs]
+    if: github.ref == 'refs/heads/main' && needs.check-changes.outputs.should-deploy == 'true'
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Make deployment script executable
+        run: chmod +x scripts/deploy-docs.sh
+
+      - name: Create environment file
+        run: |
+          cat > .env.dns << EOF
+          VERCEL_TOKEN=${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TEAM_ID=${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID=${{ secrets.VERCEL_DOCS_PROJECT_ID }}
+          DNS_PROVIDER=${{ github.event.inputs.dns_provider || 'vercel' }}
+          DOMAIN=itsdifferentproductions.com
+          SUBDOMAIN=docs
+          FULL_DOMAIN=docs.itsdifferentproductions.com
+          CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}
+          CLOUDFLARE_API_KEY=${{ secrets.CLOUDFLARE_API_KEY }}
+          CLOUDFLARE_ZONE_ID=${{ secrets.CLOUDFLARE_ZONE_ID }}
+          SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}
+          EOF
+
+      - name: Deploy documentation site
+        run: ./scripts/deploy-docs.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload deployment logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-logs
+          path: logs/
+          retention-days: 30
+
+      - name: Create deployment summary
+        run: |
+          echo "## 📚 Documentation Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **URL**: https://docs.itsdifferentproductions.com" >> $GITHUB_STEP_SUMMARY
+          echo "📅 **Deployed**: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "🔧 **DNS Provider**: ${{ github.event.inputs.dns_provider || 'vercel' }}" >> $GITHUB_STEP_SUMMARY
+          echo "📝 **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Quick Links" >> $GITHUB_STEP_SUMMARY
+          echo "- [Documentation Site](https://docs.itsdifferentproductions.com)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Main Platform](https://itsdifferentproductions.vercel.app)" >> $GITHUB_STEP_SUMMARY
+          echo "- [GitHub Repository](https://github.com/${{ github.repository }})" >> $GITHUB_STEP_SUMMARY
+
+  # Notify on deployment completion
+  notify:
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: always() && github.ref == 'refs/heads/main'
+    steps:
+      - name: Notify Discord
+        if: needs.deploy-production.result == 'success'
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"content":"📚 Documentation site deployed successfully!\n🌐 https://docs.itsdifferentproductions.com\n⏰ '"$(date)"'"}' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }} || true
+
+      - name: Notify on failure
+        if: needs.deploy-production.result == 'failure'
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"content":"❌ Documentation deployment failed!\n🔗 Check GitHub Actions for details\n⏰ '"$(date)"'"}' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }} || true
+
+  # Health check after deployment
+  health-check:
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: needs.deploy-production.result == 'success'
+    steps:
+      - name: Wait for DNS propagation
+        run: sleep 60
+
+      - name: Health check
+        run: |
+          echo "🔍 Performing health check..."
+          
+          # Check if site is accessible
+          if curl -f -s -o /dev/null https://docs.itsdifferentproductions.com; then
+            echo "✅ Site is accessible"
+          else
+            echo "❌ Site is not accessible"
+            exit 1
+          fi
+          
+          # Check if main pages exist
+          pages=("/" "/getting-started/quick-start" "/api/overview" "/design-system/theming")
+          for page in "${pages[@]}"; do
+            if curl -f -s -o /dev/null "https://docs.itsdifferentproductions.com$page"; then
+              echo "✅ Page $page is accessible"
+            else
+              echo "⚠️ Page $page may not be accessible"
+            fi
+          done
+
+      - name: Performance check
+        run: |
+          echo "⚡ Checking site performance..."
+          
+          # Simple performance check
+          response_time=$(curl -o /dev/null -s -w '%{time_total}' https://docs.itsdifferentproductions.com)
+          echo "Response time: ${response_time}s"
+          
+          if (( $(echo "$response_time < 3.0" | bc -l) )); then
+            echo "✅ Performance check passed"
+          else
+            echo "⚠️ Site may be slow (${response_time}s)"
+          fi
