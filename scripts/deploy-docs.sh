@@ -149,6 +149,42 @@ configure_dns() {
     print_status "$GREEN" "✅ DNS configuration completed"
 }
 
+# Check if we should use docs branch strategy
+check_docs_branch_strategy() {
+    print_status "$BLUE" "🌿 Checking documentation deployment strategy..."
+
+    local deployment_type="${DOCS_DEPLOYMENT_TYPE:-single}"
+
+    if [[ "$deployment_type" == "branch" ]]; then
+        print_status "$BLUE" "📋 Using docs branch deployment strategy"
+
+        # Check if docs branch exists
+        if git show-ref --verify --quiet refs/heads/docs; then
+            print_status "$GREEN" "✅ Docs branch exists"
+
+            # Switch to docs branch for deployment
+            local current_branch=$(git branch --show-current)
+            git checkout docs
+
+            # Sync documentation from main if needed
+            print_status "$BLUE" "🔄 Syncing documentation from main..."
+            git checkout main -- docs/
+
+            if [[ -n $(git status --porcelain) ]]; then
+                git add docs/
+                git commit -m "docs: sync documentation from main for deployment"
+            fi
+
+            print_status "$GREEN" "✅ Documentation synced to docs branch"
+        else
+            print_status "$YELLOW" "⚠️  Docs branch doesn't exist. Creating it..."
+            ./scripts/setup-docs-branch.sh
+        fi
+    else
+        print_status "$BLUE" "📋 Using single-branch deployment strategy"
+    fi
+}
+
 # Build documentation
 build_docs() {
     print_status "$BLUE" "🔨 Building documentation..."
@@ -173,10 +209,24 @@ build_docs() {
 deploy_to_vercel() {
     print_status "$BLUE" "🚀 Deploying to Vercel..."
 
-    cd "$DOCS_DIR"
+    local deployment_type="${DOCS_DEPLOYMENT_TYPE:-single}"
+    local vercel_config="${DOCS_VERCEL_CONFIG:-vercel.json}"
 
-    # Deploy to production
-    vercel --prod --token "$VERCEL_TOKEN" --confirm
+    if [[ "$deployment_type" == "branch" ]]; then
+        # Deploy from docs branch with docs-specific config
+        if [[ -f "$vercel_config" ]]; then
+            print_status "$BLUE" "📋 Using docs-specific Vercel configuration: $vercel_config"
+            vercel --config="$vercel_config" --prod --token "$VERCEL_TOKEN" --confirm
+        else
+            print_status "$YELLOW" "⚠️  Docs-specific config not found, using default"
+            cd "$DOCS_DIR"
+            vercel --prod --token "$VERCEL_TOKEN" --confirm
+        fi
+    else
+        # Deploy from docs directory
+        cd "$DOCS_DIR"
+        vercel --prod --token "$VERCEL_TOKEN" --confirm
+    fi
 
     print_status "$GREEN" "✅ Deployment to Vercel completed"
 }
@@ -262,6 +312,7 @@ main() {
     check_prerequisites
     load_environment
     validate_environment
+    check_docs_branch_strategy
     setup_vercel_project
     configure_dns
     build_docs

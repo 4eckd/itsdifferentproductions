@@ -142,6 +142,30 @@ collect_configuration() {
             ;;
     esac
 
+    # Documentation deployment strategy
+    echo ""
+    echo -e "${YELLOW}📚 Choose documentation deployment strategy:${NC}"
+    echo "1) Single branch (deploy from main branch)"
+    echo "2) Docs branch (separate branch for documentation)"
+    echo ""
+    read -p "Enter your choice (1-2): " docs_strategy
+
+    case $docs_strategy in
+        1)
+            DOCS_DEPLOYMENT_TYPE="single"
+            DOCS_VERCEL_CONFIG="vercel.json"
+            ;;
+        2)
+            DOCS_DEPLOYMENT_TYPE="branch"
+            DOCS_VERCEL_CONFIG="vercel-docs.json"
+            ;;
+        *)
+            print_warning "Invalid choice, defaulting to single branch"
+            DOCS_DEPLOYMENT_TYPE="single"
+            DOCS_VERCEL_CONFIG="vercel.json"
+            ;;
+    esac
+
     # Cloudflare configuration
     if [[ "$DNS_PROVIDER" == "cloudflare" ]]; then
         echo ""
@@ -197,6 +221,10 @@ create_environment_file() {
         sed -i.bak "s|SLACK_WEBHOOK_URL=.*|SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL|" .env.local
     fi
 
+    # Update docs deployment strategy
+    sed -i.bak "s/DOCS_DEPLOYMENT_TYPE=.*/DOCS_DEPLOYMENT_TYPE=$DOCS_DEPLOYMENT_TYPE/" .env.local
+    sed -i.bak "s/DOCS_VERCEL_CONFIG=.*/DOCS_VERCEL_CONFIG=$DOCS_VERCEL_CONFIG/" .env.local
+
     # Remove backup file
     rm -f .env.local.bak
 
@@ -210,8 +238,31 @@ setup_scripts() {
 
     chmod +x scripts/deploy-docs.sh
     chmod +x scripts/setup-docs-dns.js
+    chmod +x scripts/setup-docs-branch.sh
+    chmod +x scripts/docs-branch-manager.sh
+    chmod +x scripts/validate-env.js
 
     print_success "Scripts are now executable"
+}
+
+# Setup docs branch if selected
+setup_docs_branch() {
+    if [[ "$DOCS_DEPLOYMENT_TYPE" == "branch" ]]; then
+        print_step "Setting up documentation branch..."
+
+        echo ""
+        echo -e "${YELLOW}📚 You selected docs branch deployment strategy.${NC}"
+        echo "This will create a separate 'docs' branch for documentation deployment."
+        echo ""
+        read -p "Set up docs branch now? (Y/n): " setup_branch
+
+        if [[ "$setup_branch" != "n" && "$setup_branch" != "N" ]]; then
+            ./scripts/setup-docs-branch.sh
+            print_success "Docs branch setup completed"
+        else
+            print_warning "Docs branch setup skipped. Run './scripts/setup-docs-branch.sh' later."
+        fi
+    fi
 }
 
 # Run the deployment
@@ -307,6 +358,7 @@ main() {
     collect_configuration
     create_environment_file
     setup_scripts
+    setup_docs_branch
 
     if [[ "$1" != "--config-only" ]]; then
         run_deployment
