@@ -223,6 +223,13 @@ export function SiteHeader() {
                   {/* Additional Links */}
                   <div className="mt-8 pt-6 border-t space-y-1">
                     <Link
+                      href="/social"
+                      className="flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Social Media
+                    </Link>
+                    <Link
                       href="/contact"
                       className="flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"
                       onClick={() => setIsMenuOpen(false)}

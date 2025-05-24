@@ -27,6 +27,8 @@ const colorThemes = [
   { name: 'Green', value: 'green', lightPreview: '#f0fdf4', darkPreview: '#14532d' },
   { name: 'Amber', value: 'amber', lightPreview: '#fffbeb', darkPreview: '#78350f' },
   { name: 'Red', value: 'red', lightPreview: '#fef2f2', darkPreview: '#7f1d1d' },
+  { name: 'Cyan', value: 'cyan', lightPreview: '#ecfeff', darkPreview: '#164e63' },
+  { name: 'Pink', value: 'pink', lightPreview: '#fdf2f8', darkPreview: '#831843' },
 ]
 
 export function ThemeSelector() {
@@ -58,8 +60,8 @@ export function ThemeSelector() {
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>Appearance</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        
-        <DropdownMenuItem 
+
+        <DropdownMenuItem
           className="flex items-center gap-2"
           onClick={() => setTheme('light')}
         >
@@ -73,8 +75,8 @@ export function ThemeSelector() {
             </span>
           )}
         </DropdownMenuItem>
-        
-        <DropdownMenuItem 
+
+        <DropdownMenuItem
           className="flex items-center gap-2"
           onClick={() => setTheme('dark')}
         >
@@ -88,8 +90,8 @@ export function ThemeSelector() {
             </span>
           )}
         </DropdownMenuItem>
-        
-        <DropdownMenuItem 
+
+        <DropdownMenuItem
           className="flex items-center gap-2"
           onClick={() => setTheme('system')}
         >
@@ -103,9 +105,9 @@ export function ThemeSelector() {
             </span>
           )}
         </DropdownMenuItem>
-        
+
         <DropdownMenuSeparator />
-        
+
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="flex items-center gap-2">
             <Palette className="h-4 w-4" />
@@ -121,12 +123,12 @@ export function ThemeSelector() {
                 >
                   <div className="flex h-5 w-5 items-center justify-center">
                     <div className="flex h-4 w-4 rounded-full overflow-hidden border border-border">
-                      <div 
-                        className="h-full w-1/2" 
+                      <div
+                        className="h-full w-1/2"
                         style={{ backgroundColor: item.lightPreview }}
                       />
-                      <div 
-                        className="h-full w-1/2" 
+                      <div
+                        className="h-full w-1/2"
                         style={{ backgroundColor: item.darkPreview }}
                       />
                     </div>

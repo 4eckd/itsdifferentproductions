@@ -253,11 +253,19 @@ export default function MerchPage() {
             Get exclusive access to limited drops, early releases, and special discounts.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="px-8">
-              Join Discord Community
+            <Button size="lg" className="px-8" asChild>
+              <a
+                href="https://discord.gg/m3WwmkMHAx"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Join Discord Community
+              </a>
             </Button>
-            <Button size="lg" variant="outline" className="px-8">
-              Follow on Social Media
+            <Button size="lg" variant="outline" className="px-8" asChild>
+              <a href="/social">
+                Follow on Social Media
+              </a>
             </Button>
           </div>
         </div>

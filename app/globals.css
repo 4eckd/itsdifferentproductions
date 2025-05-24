@@ -378,6 +378,118 @@
     --chart-4: 40 80% 50%;
     --chart-5: 320 80% 50%;
   }
+
+  /* Cyan Theme - Light Mode */
+  [data-color-theme="cyan"] {
+    --background: 180 100% 99%;
+    --foreground: 180 10% 5%;
+    --card: 180 100% 99%;
+    --card-foreground: 180 10% 5%;
+    --popover: 180 100% 99%;
+    --popover-foreground: 180 10% 5%;
+    --primary: 180 100% 40%;
+    --primary-foreground: 180 10% 98%;
+    --secondary: 180 20% 96%;
+    --secondary-foreground: 180 10% 20%;
+    --muted: 180 20% 96%;
+    --muted-foreground: 180 10% 40%;
+    --accent: 180 20% 96%;
+    --accent-foreground: 180 10% 20%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 180 20% 90%;
+    --input: 180 20% 90%;
+    --ring: 180 100% 40%;
+    --chart-1: 180 100% 40%;
+    --chart-2: 200 90% 40%;
+    --chart-3: 160 90% 40%;
+    --chart-4: 220 90% 40%;
+    --chart-5: 140 90% 40%;
+  }
+
+  /* Cyan Theme - Dark Mode */
+  .dark[data-color-theme="cyan"] {
+    --background: 180 30% 5%;
+    --foreground: 180 10% 98%;
+    --card: 180 30% 7%;
+    --card-foreground: 180 10% 98%;
+    --popover: 180 30% 7%;
+    --popover-foreground: 180 10% 98%;
+    --primary: 180 100% 40%;
+    --primary-foreground: 180 10% 98%;
+    --secondary: 180 30% 15%;
+    --secondary-foreground: 180 10% 98%;
+    --muted: 180 30% 15%;
+    --muted-foreground: 180 10% 70%;
+    --accent: 180 30% 15%;
+    --accent-foreground: 180 10% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 180 30% 20%;
+    --input: 180 30% 20%;
+    --ring: 180 100% 40%;
+    --chart-1: 180 100% 40%;
+    --chart-2: 200 90% 40%;
+    --chart-3: 160 90% 40%;
+    --chart-4: 220 90% 40%;
+    --chart-5: 140 90% 40%;
+  }
+
+  /* Pink Theme - Light Mode */
+  [data-color-theme="pink"] {
+    --background: 320 100% 99%;
+    --foreground: 320 10% 5%;
+    --card: 320 100% 99%;
+    --card-foreground: 320 10% 5%;
+    --popover: 320 100% 99%;
+    --popover-foreground: 320 10% 5%;
+    --primary: 320 85% 60%;
+    --primary-foreground: 320 10% 98%;
+    --secondary: 320 20% 96%;
+    --secondary-foreground: 320 10% 20%;
+    --muted: 320 20% 96%;
+    --muted-foreground: 320 10% 40%;
+    --accent: 320 20% 96%;
+    --accent-foreground: 320 10% 20%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 320 20% 90%;
+    --input: 320 20% 90%;
+    --ring: 320 85% 60%;
+    --chart-1: 320 85% 60%;
+    --chart-2: 340 80% 60%;
+    --chart-3: 300 80% 60%;
+    --chart-4: 360 80% 60%;
+    --chart-5: 280 80% 60%;
+  }
+
+  /* Pink Theme - Dark Mode */
+  .dark[data-color-theme="pink"] {
+    --background: 320 30% 5%;
+    --foreground: 320 10% 98%;
+    --card: 320 30% 7%;
+    --card-foreground: 320 10% 98%;
+    --popover: 320 30% 7%;
+    --popover-foreground: 320 10% 98%;
+    --primary: 320 85% 60%;
+    --primary-foreground: 320 10% 98%;
+    --secondary: 320 30% 15%;
+    --secondary-foreground: 320 10% 98%;
+    --muted: 320 30% 15%;
+    --muted-foreground: 320 10% 70%;
+    --accent: 320 30% 15%;
+    --accent-foreground: 320 10% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 320 30% 20%;
+    --input: 320 30% 20%;
+    --ring: 320 85% 60%;
+    --chart-1: 320 85% 60%;
+    --chart-2: 340 80% 60%;
+    --chart-3: 300 80% 60%;
+    --chart-4: 360 80% 60%;
+    --chart-5: 280 80% 60%;
+  }
 }
 
 @layer base {
