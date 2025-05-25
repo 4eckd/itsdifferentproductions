@@ -236,6 +236,13 @@ export function SiteHeader() {
                   {/* Additional Links */}
                   <div className="space-y-1">
                     <Link
+                      href="/collaborate"
+                      className="flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Collaborate With Us
+                    </Link>
+                    <Link
                       href="/social"
                       className="flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"
                       onClick={() => setIsMenuOpen(false)}

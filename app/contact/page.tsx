@@ -3,16 +3,36 @@ import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CollaborationForm } from "@/components/forms/collaboration-form";
+import { Mail, MapPin, Phone, Users, MessageCircle } from "lucide-react";
 
 export default function ContactPage() {
   return (
     <div className="relative flex min-h-screen flex-col">
       <SiteHeader />
       <main className="flex-1 container py-12">
-        <h1 className="text-4xl font-bold mb-8">Contact Us</h1>
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold mb-4">Get In Touch</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Whether you want to collaborate, have questions, or just say hello, we'd love to hear from you.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <Tabs defaultValue="contact" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="contact" className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4" />
+              Contact Us
+            </TabsTrigger>
+            <TabsTrigger value="collaborate" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              Collaborate With Us
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="contact">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div>
             <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
@@ -106,7 +126,13 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-        </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="collaborate">
+            <CollaborationForm />
+          </TabsContent>
+        </Tabs>
       </main>
       <SiteFooter />
     </div>

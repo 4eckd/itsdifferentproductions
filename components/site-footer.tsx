@@ -240,6 +240,13 @@ export function SiteFooter({ className }: { className?: string }) {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/collaborate" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center">
+                    <ArrowRight className="mr-2 h-3 w-3 text-primary" />
+                    Collaborate With Us
+                    <span className="ml-1.5 text-xs bg-green-500/10 text-green-500 px-1.5 py-0.5 rounded-full">Join</span>
+                  </Link>
+                </li>
+                <li>
                   <Link href="/contact" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center">
                     <ArrowRight className="mr-2 h-3 w-3 text-primary" />
                     Contact Us
