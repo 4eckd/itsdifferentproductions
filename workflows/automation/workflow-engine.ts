@@ -33,6 +33,7 @@ export interface WorkflowExecution {
   startTime: Date;
   endTime?: Date;
   variables: Record<string, any>;
+  metadata?: Record<string, any>;
   logs: WorkflowLog[];
   error?: string;
 }
@@ -147,6 +148,7 @@ export class WorkflowEngine {
       currentStep: workflow.startStep,
       startTime: new Date(),
       variables: { ...workflow.variables, ...variables },
+      metadata: { ...workflow.metadata, ...metadata },
       logs: [],
     };
 
@@ -223,14 +225,14 @@ export class WorkflowEngine {
 
         try {
           const result = await this.executeStep(step, execution, context);
-          
+
           if (result.success) {
             logger.info(`Step completed successfully: ${step.name}`, step.id, result.data);
             currentStepId = result.nextStep || step.onSuccess;
           } else {
             logger.error(`Step failed: ${step.name}`, step.id, result.error);
             currentStepId = step.onFailure;
-            
+
             if (!currentStepId) {
               throw new Error(result.error || 'Step failed without error message');
             }
@@ -238,7 +240,7 @@ export class WorkflowEngine {
         } catch (error) {
           logger.error(`Step execution error: ${step.name}`, step.id, error);
           currentStepId = step.onFailure;
-          
+
           if (!currentStepId) {
             throw error;
           }
@@ -301,7 +303,7 @@ export class WorkflowEngine {
     this.registerActionHandler('condition', async (step, execution, context) => {
       const condition = step.config.condition;
       const variables = context.variables;
-      
+
       // Simple condition evaluation (can be enhanced with a proper expression parser)
       let result = false;
       try {
@@ -322,20 +324,20 @@ export class WorkflowEngine {
     this.registerActionHandler('log', async (step, execution, context) => {
       const message = step.config.message || 'Log step executed';
       const level = step.config.level || 'info';
-      
+
       context.logger[level as keyof WorkflowLogger](message, step.id, step.config.data);
-      
+
       return { success: true };
     });
 
     // Variable assignment handler
     this.registerActionHandler('assign', async (step, execution, context) => {
       const assignments = step.config.assignments || {};
-      
+
       for (const [key, value] of Object.entries(assignments)) {
         context.variables[key] = value;
       }
-      
+
       return { success: true };
     });
   }
