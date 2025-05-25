@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { WalletConnect } from "@/components/ui/wallet-connect";
 import { useAuth } from "@/contexts/auth-context";
 import { signInSchema, SignInFormValues } from "@/lib/validators/auth";
 
@@ -36,15 +37,15 @@ export function SignInForm() {
 
   async function onSubmit(data: SignInFormValues) {
     setIsLoading(true);
-    
+
     try {
       const { error } = await signIn(data.email, data.password);
-      
+
       if (error) {
         toast.error(error.message);
         return;
       }
-      
+
       toast.success("Successfully signed in!");
       router.push("/dashboard");
     } catch (error) {
@@ -63,7 +64,7 @@ export function SignInForm() {
           Sign in to your account to continue
         </p>
       </div>
-      
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -79,7 +80,7 @@ export function SignInForm() {
               </FormItem>
             )}
           />
-          
+
           <FormField
             control={form.control}
             name="password"
@@ -87,8 +88,8 @@ export function SignInForm() {
               <FormItem>
                 <div className="flex items-center justify-between">
                   <FormLabel>Password</FormLabel>
-                  <Button 
-                    variant="link" 
+                  <Button
+                    variant="link"
                     className="p-0 h-auto text-xs"
                     onClick={() => router.push("/auth/reset-password")}
                     type="button"
@@ -98,9 +99,9 @@ export function SignInForm() {
                 </div>
                 <FormControl>
                   <div className="relative">
-                    <Input 
-                      type={showPassword ? "text" : "password"} 
-                      {...field} 
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      {...field}
                     />
                     <Button
                       type="button"
@@ -124,13 +125,13 @@ export function SignInForm() {
               </FormItem>
             )}
           />
-          
+
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "Signing in..." : "Sign in"}
           </Button>
         </form>
       </Form>
-      
+
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
@@ -141,13 +142,11 @@ export function SignInForm() {
           </span>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 gap-2">
-        <Button variant="outline" type="button" disabled className="w-full">
-          Web3 Wallet (Coming Soon)
-        </Button>
+        <WalletConnect variant="outline" className="w-full" />
       </div>
-      
+
       <div className="text-center text-sm">
         Don't have an account?{" "}
         <Button variant="link" className="p-0" onClick={() => router.push("/auth/sign-up")}>

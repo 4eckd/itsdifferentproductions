@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart, Music, Shirt, Gem, Menu, X, Home, Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { ThemeSelector } from "@/components/theme-selector";
+import { WalletConnect } from "@/components/ui/wallet-connect";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -118,6 +119,11 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* Wallet Connect - Desktop */}
+          <div className="hidden sm:block">
+            <WalletConnect variant="outline" size="sm" />
+          </div>
+
           {/* Theme Selector */}
           <ThemeSelector />
 
@@ -220,8 +226,15 @@ export function SiteHeader() {
                     })}
                   </div>
 
+                  {/* Wallet Connect - Mobile */}
+                  <div className="mt-8 pt-6 border-t">
+                    <div className="px-4 mb-4">
+                      <WalletConnect variant="default" size="default" className="w-full" />
+                    </div>
+                  </div>
+
                   {/* Additional Links */}
-                  <div className="mt-8 pt-6 border-t space-y-1">
+                  <div className="space-y-1">
                     <Link
                       href="/social"
                       className="flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"

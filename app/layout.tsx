@@ -3,6 +3,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { AuthProvider } from '@/contexts/auth-context'
 import { ColorThemeProvider } from '@/contexts/theme-context'
+import { WalletProvider } from '@/contexts/wallet-context'
 import { Toaster } from '@/components/ui/sonner'
 import { DiscordInvite } from '@/components/discord-invite'
 
@@ -28,9 +29,11 @@ export default function RootLayout({
         >
           <ColorThemeProvider>
             <AuthProvider>
-              {children}
-              <Toaster />
-              <DiscordInvite />
+              <WalletProvider>
+                {children}
+                <Toaster />
+                <DiscordInvite />
+              </WalletProvider>
             </AuthProvider>
           </ColorThemeProvider>
         </ThemeProvider>
