@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { ThemeSelector } from "@/components/theme-selector";
 import { WalletConnect } from "@/components/ui/wallet-connect";
 import { CartSidebar } from "@/components/cart/cart-sidebar";
+import { MerchandiseDropdown } from "@/components/store/merchandise-dropdown";
 import { useCart } from "@/contexts/cart-context";
 import { useAuth } from "@/contexts/auth-context";
 import { supabase } from "@/lib/supabase";
@@ -91,11 +92,6 @@ export function SiteHeader() {
       icon: Video,
     },
     {
-      name: "Merch",
-      href: "/store/merch",
-      icon: Shirt,
-    },
-    {
       name: "NFTs",
       href: "/store/nfts",
       icon: Gem,
@@ -153,6 +149,9 @@ export function SiteHeader() {
               </Link>
             );
           })}
+
+          {/* Merchandise Dropdown */}
+          <MerchandiseDropdown />
         </nav>
 
         <div className="flex items-center space-x-2 sm:space-x-3">
@@ -271,6 +270,21 @@ export function SiteHeader() {
                         </Link>
                       );
                     })}
+
+                    {/* Merchandise Link */}
+                    <Link
+                      href="/store/merch"
+                      className={cn(
+                        "flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors",
+                        pathname?.startsWith("/store/merch")
+                          ? "bg-primary/10 text-primary"
+                          : "hover:bg-muted text-foreground/80 hover:text-foreground"
+                      )}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Shirt className="mr-3 h-5 w-5" />
+                      Merchandise
+                    </Link>
                   </div>
 
                   {/* Wallet Connect - Mobile */}

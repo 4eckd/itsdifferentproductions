@@ -2,6 +2,7 @@ import { Shirt, ShoppingCart, Star, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { VocalistCTABanner } from "@/components/vocalist-cta-banner";
+import { MerchandiseCategoryNav } from "@/components/store/merchandise-category-nav";
 import Image from "next/image";
 
 // Merchandise product data using the provided images
@@ -150,6 +151,17 @@ export default function MerchPage() {
             </Badge>
           </div>
         </div>
+      </section>
+
+      {/* Category Navigation */}
+      <section className="py-6">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-semibold mb-4">Shop by Category</h2>
+          <p className="text-muted-foreground mb-6">
+            Explore our diverse collection of premium merchandise
+          </p>
+        </div>
+        <MerchandiseCategoryNav className="justify-center" />
       </section>
 
       {/* Products Grid */}
