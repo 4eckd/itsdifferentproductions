@@ -5,15 +5,22 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Music, Shirt, Gem, Menu, X, Home, Search } from "lucide-react";
+import { ShoppingCart, Music, Shirt, Gem, Menu, X, Home, Search, Shield, Palette, Video } from "lucide-react";
 import { useState, useEffect } from "react";
 import { ThemeSelector } from "@/components/theme-selector";
 import { WalletConnect } from "@/components/ui/wallet-connect";
+import { CartSidebar } from "@/components/cart/cart-sidebar";
+import { useCart } from "@/contexts/cart-context";
+import { useAuth } from "@/contexts/auth-context";
+import { supabase } from "@/lib/supabase";
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { totalItems } = useCart();
+  const { user } = useAuth();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // Handle scroll effect
   useEffect(() => {
@@ -29,6 +36,31 @@ export function SiteHeader() {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
+
+  // Check admin status
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (!user) {
+        setIsAdmin(false);
+        return;
+      }
+
+      try {
+        const { data } = await supabase
+          .from("users")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+
+        setIsAdmin(data?.role === "admin");
+      } catch (error) {
+        console.error("Error checking admin status:", error);
+        setIsAdmin(false);
+      }
+    };
+
+    checkAdminStatus();
+  }, [user]);
 
   // Prevent scrolling when mobile menu is open
   useEffect(() => {
@@ -52,6 +84,11 @@ export function SiteHeader() {
       name: "Beats",
       href: "/store/beats",
       icon: Music,
+    },
+    {
+      name: "Media",
+      href: "/media",
+      icon: Video,
     },
     {
       name: "Merch",
@@ -119,6 +156,16 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* Admin Button - Desktop */}
+          {isAdmin && (
+            <Link href="/admin">
+              <Button variant="outline" size="sm" className="hidden sm:flex">
+                <Shield className="h-4 w-4 mr-2" />
+                Admin
+              </Button>
+            </Link>
+          )}
+
           {/* Wallet Connect - Desktop */}
           <div className="hidden sm:block">
             <WalletConnect variant="outline" size="sm" />
@@ -235,6 +282,24 @@ export function SiteHeader() {
 
                   {/* Additional Links */}
                   <div className="space-y-1">
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        className="flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <Shield className="mr-3 h-5 w-5" />
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    <Link
+                      href="/themes"
+                      className="flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Palette className="mr-3 h-5 w-5" />
+                      Theme Gallery
+                    </Link>
                     <Link
                       href="/auditions"
                       className="flex items-center py-4 px-4 rounded-lg text-base font-medium transition-colors hover:bg-muted text-foreground/80 hover:text-foreground"

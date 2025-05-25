@@ -29,6 +29,14 @@ const colorThemes = [
   { name: 'Red', value: 'red', lightPreview: '#fef2f2', darkPreview: '#7f1d1d' },
   { name: 'Cyan', value: 'cyan', lightPreview: '#ecfeff', darkPreview: '#164e63' },
   { name: 'Pink', value: 'pink', lightPreview: '#fdf2f8', darkPreview: '#831843' },
+  { name: 'Pure White', value: 'white', lightPreview: '#ffffff', darkPreview: '#f8f9fa' },
+  { name: 'Midnight', value: 'midnight', lightPreview: '#1e293b', darkPreview: '#0f172a' },
+  { name: 'Ocean', value: 'ocean', lightPreview: '#e0f2fe', darkPreview: '#0c4a6e' },
+  { name: 'Sunset', value: 'sunset', lightPreview: '#fff7ed', darkPreview: '#9a3412' },
+  { name: 'Forest', value: 'forest', lightPreview: '#ecfdf5', darkPreview: '#064e3b' },
+  { name: 'Lavender', value: 'lavender', lightPreview: '#faf5ff', darkPreview: '#581c87' },
+  { name: 'Gold', value: 'gold', lightPreview: '#fffbeb', darkPreview: '#92400e' },
+  { name: 'Neon', value: 'neon', lightPreview: '#f0fdf4', darkPreview: '#1a1a1a' },
 ]
 
 export function ThemeSelector() {

@@ -209,6 +209,13 @@ export function SiteFooter({ className }: { className?: string }) {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/media" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center">
+                    <ArrowRight className="mr-2 h-3 w-3 text-primary" />
+                    Media Gallery
+                    <span className="ml-1.5 text-xs bg-green-500/10 text-green-500 px-1.5 py-0.5 rounded-full">Videos & Audio</span>
+                  </Link>
+                </li>
+                <li>
                   <Link href="/store/nfts" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center">
                     <ArrowRight className="mr-2 h-3 w-3 text-primary" />
                     NFTs
@@ -237,6 +244,13 @@ export function SiteFooter({ className }: { className?: string }) {
                   <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center">
                     <ArrowRight className="mr-2 h-3 w-3 text-primary" />
                     About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/themes" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center">
+                    <ArrowRight className="mr-2 h-3 w-3 text-primary" />
+                    Theme Gallery
+                    <span className="ml-1.5 text-xs bg-blue-500/10 text-blue-500 px-1.5 py-0.5 rounded-full">16 Themes</span>
                   </Link>
                 </li>
                 <li>

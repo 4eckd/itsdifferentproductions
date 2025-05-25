@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 
 // Define the available color themes
-export type ColorTheme = 'default' | 'purple' | 'blue' | 'green' | 'amber' | 'red' | 'cyan' | 'pink'
+export type ColorTheme = 'default' | 'purple' | 'blue' | 'green' | 'amber' | 'red' | 'cyan' | 'pink' | 'white' | 'midnight' | 'ocean' | 'sunset' | 'forest' | 'lavender' | 'gold' | 'neon'
 
 type ThemeContextType = {
   colorTheme: ColorTheme

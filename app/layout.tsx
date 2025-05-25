@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { AuthProvider } from '@/contexts/auth-context'
 import { ColorThemeProvider } from '@/contexts/theme-context'
 import { WalletProvider } from '@/contexts/wallet-context'
+import { CartProvider } from '@/contexts/cart-context'
 import { Toaster } from '@/components/ui/sonner'
 import { DiscordInvite } from '@/components/discord-invite'
 
@@ -30,9 +31,11 @@ export default function RootLayout({
           <ColorThemeProvider>
             <AuthProvider>
               <WalletProvider>
-                {children}
-                <Toaster />
-                <DiscordInvite />
+                <CartProvider>
+                  {children}
+                  <Toaster />
+                  <DiscordInvite />
+                </CartProvider>
               </WalletProvider>
             </AuthProvider>
           </ColorThemeProvider>

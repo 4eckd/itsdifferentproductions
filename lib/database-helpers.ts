@@ -283,6 +283,94 @@ export async function removeFromWishlist(userId: string, productId: string) {
 }
 
 /**
+ * Get a user's cart
+ * @param userId The user ID
+ * @returns Array of cart items with product details or null if fetching failed
+ */
+export async function getUserCart(userId: string) {
+  try {
+    const { data, error } = await supabase
+      .from('cart_items')
+      .select(`
+        id,
+        product_id,
+        quantity,
+        added_at,
+        product:products (
+          id,
+          name,
+          description,
+          price,
+          category,
+          status,
+          metadata
+        )
+      `)
+      .eq('user_id', userId)
+      .order('added_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching cart:', error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error in getUserCart:', error);
+    return null;
+  }
+}
+
+/**
+ * Remove an item from the user's cart
+ * @param itemId The cart item ID
+ * @returns True if removal was successful, false otherwise
+ */
+export async function removeFromCart(itemId: string) {
+  try {
+    const { error } = await supabase
+      .from('cart_items')
+      .delete()
+      .eq('id', itemId);
+
+    if (error) {
+      console.error('Error removing from cart:', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error in removeFromCart:', error);
+    return false;
+  }
+}
+
+/**
+ * Update the quantity of a cart item
+ * @param itemId The cart item ID
+ * @param quantity The new quantity
+ * @returns True if update was successful, false otherwise
+ */
+export async function updateCartItemQuantity(itemId: string, quantity: number) {
+  try {
+    const { error } = await supabase
+      .from('cart_items')
+      .update({ quantity })
+      .eq('id', itemId);
+
+    if (error) {
+      console.error('Error updating cart item quantity:', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error in updateCartItemQuantity:', error);
+    return false;
+  }
+}
+
+/**
  * Get a user's wishlist
  * @param userId The user ID
  * @returns Array of wishlist items with product details or null if fetching failed
