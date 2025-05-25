@@ -3,6 +3,7 @@ import { Music, Shirt, Gem, ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { DiscordBanner } from "@/components/discord-banner";
+import { VocalistAuditions } from "@/components/vocalist-auditions";
 
 export default function StorePage() {
   return (
@@ -152,6 +153,9 @@ export default function StorePage() {
           </div>
         </div>
       </section>
+
+      {/* Vocalist Auditions Call-to-Action */}
+      <VocalistAuditions />
     </>
   );
 }

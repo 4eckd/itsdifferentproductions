@@ -1,6 +1,7 @@
 import { Shirt, ShoppingCart, Star, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { VocalistCTABanner } from "@/components/vocalist-cta-banner";
 import Image from "next/image";
 
 // Merchandise product data using the provided images
@@ -242,6 +243,9 @@ export default function MerchPage() {
           ))}
         </div>
       </section>
+
+      {/* Vocalist Auditions Banner */}
+      <VocalistCTABanner />
 
       {/* Call to Action */}
       <section className="py-16 text-center">

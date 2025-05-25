@@ -1,6 +1,7 @@
 import { Gem, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
+import { VocalistCTABanner } from "@/components/vocalist-cta-banner";
 
 export default function NFTsPage() {
   return (
@@ -25,19 +26,19 @@ export default function NFTsPage() {
                     <Gem className="h-16 w-16" />
                   </div>
                 </div>
-                
+
                 <div className="p-6">
                   <h3 className="text-xl font-bold mb-2">NFT #{nft}</h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     Limited edition digital collectible from Its Different Productions
                   </p>
-                  
+
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xs text-muted-foreground">Current Price</p>
                       <p className="font-bold">0.{nft} ETH</p>
                     </div>
-                    
+
                     <Button>
                       <ExternalLink className="h-4 w-4 mr-2" />
                       View on OpenSea
@@ -49,6 +50,9 @@ export default function NFTsPage() {
           ))}
         </div>
       </section>
+
+      {/* Vocalist Auditions Banner */}
+      <VocalistCTABanner />
     </div>
   );
 }

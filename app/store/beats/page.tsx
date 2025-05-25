@@ -1,5 +1,6 @@
 import { Music, Play, Pause, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { VocalistAuditions } from "@/components/vocalist-auditions";
 
 export default function BeatsPage() {
   return (
@@ -21,20 +22,20 @@ export default function BeatsPage() {
               <div className="h-16 w-16 bg-primary/10 rounded-md flex items-center justify-center mr-4">
                 <Music className="h-8 w-8 text-primary" />
               </div>
-              
+
               <div className="flex-grow">
                 <h3 className="font-medium">Beat Title {beat}</h3>
                 <p className="text-sm text-muted-foreground">
                   Genre • BPM: 120 • Key: C Minor
                 </p>
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <Button size="icon" variant="ghost">
                   <Play className="h-5 w-5" />
                   <span className="sr-only">Play</span>
                 </Button>
-                
+
                 <Button>
                   <Download className="h-4 w-4 mr-2" />
                   Buy $29.99
@@ -44,6 +45,9 @@ export default function BeatsPage() {
           ))}
         </div>
       </section>
+
+      {/* Vocalist Auditions Call-to-Action */}
+      <VocalistAuditions />
     </div>
   );
 }
