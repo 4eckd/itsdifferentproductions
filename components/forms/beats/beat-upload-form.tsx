@@ -82,6 +82,8 @@ export function BeatUploadForm() {
       key: "",
       licenseType: "basic" as const,
       tags: "",
+      audioFile: undefined,
+      coverImage: undefined,
     },
   });
 
@@ -408,7 +410,7 @@ export function BeatUploadForm() {
                       <label
                         htmlFor="audio-upload"
                         className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer ${
-                          form.formState.errors.audioFile
+                          (form.formState.errors as any).audioFile
                             ? "border-destructive bg-destructive/10"
                             : "border-input bg-background hover:bg-accent/40"
                         }`}
@@ -453,9 +455,9 @@ export function BeatUploadForm() {
                     </div>
                   </div>
                 </FormControl>
-                {form.formState.errors.audioFile && (
+                {(form.formState.errors as any).audioFile && (
                   <FormMessage>
-                    {form.formState.errors.audioFile.message}
+                    {(form.formState.errors as any).audioFile.message}
                   </FormMessage>
                 )}
               </FormItem>
@@ -469,7 +471,7 @@ export function BeatUploadForm() {
                       <label
                         htmlFor="cover-image-upload"
                         className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer ${
-                          form.formState.errors.coverImage
+                          (form.formState.errors as any).coverImage
                             ? "border-destructive bg-destructive/10"
                             : "border-input bg-background hover:bg-accent/40"
                         }`}
@@ -514,9 +516,9 @@ export function BeatUploadForm() {
                     </div>
                   </div>
                 </FormControl>
-                {form.formState.errors.coverImage && (
+                {(form.formState.errors as any).coverImage && (
                   <FormMessage>
-                    {form.formState.errors.coverImage.message}
+                    {(form.formState.errors as any).coverImage.message}
                   </FormMessage>
                 )}
               </FormItem>
