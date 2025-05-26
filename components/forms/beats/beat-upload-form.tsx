@@ -71,7 +71,7 @@ export function BeatUploadForm() {
   const [audioPreview, setAudioPreview] = useState<string | null>(null);
   const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null);
 
-  const form = useForm<BeatFormValues>({
+  const form = useForm({
     resolver: zodResolver(beatSchema),
     defaultValues: {
       title: "",
@@ -80,7 +80,7 @@ export function BeatUploadForm() {
       genre: "",
       bpm: 0,
       key: "",
-      licenseType: "basic",
+      licenseType: "basic" as const,
       tags: "",
     },
   });
@@ -127,7 +127,7 @@ export function BeatUploadForm() {
     }
   };
 
-  async function onSubmit(data: BeatFormValues) {
+  async function onSubmit(data: any) {
     if (!user) {
       toast.error("You must be logged in to upload beats");
       return;

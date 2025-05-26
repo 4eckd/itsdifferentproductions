@@ -501,6 +501,39 @@ h4shed.sol
 
 ---
 
+### 🏆 **Thanks Wall - Large Contributors**
+
+*We deeply appreciate our generous supporters who help make this project possible!*
+
+<div align="center">
+
+#### 🌟 **Platinum Supporters** (10+ SOL)
+*Be the first to join our Platinum tier!*
+
+#### 🥇 **Gold Supporters** (5-9.99 SOL)
+*Your name could be here - support the project today!*
+
+#### 🥈 **Silver Supporters** (1-4.99 SOL)
+*Join our growing community of supporters!*
+
+#### 🥉 **Bronze Supporters** (0.1-0.99 SOL)
+*Every contribution matters - thank you!*
+
+---
+
+**Want to be featured on our Thanks Wall?**
+
+Send your donation to `h4shed.sol` and email us at `hello@itsdifferentproductions.com` with:
+- Your transaction hash
+- Your preferred display name (or "Anonymous")
+- Optional: Your website/social media link
+
+*All supporters will be featured here with their contribution tier. We update this wall monthly!*
+
+</div>
+
+---
+
 **Made with ❤️ by the Its Different Productions Team**
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/jlucus/idp)
