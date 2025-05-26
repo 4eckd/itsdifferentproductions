@@ -5,7 +5,7 @@ import { Palette, Eye, Sparkles, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useTheme } from "@/contexts/theme-context";
+import { useColorTheme, useTheme } from "@/contexts/theme-context";
 import { ColorTheme } from "@/contexts/theme-context";
 
 const themeShowcase = [
@@ -158,12 +158,13 @@ const themeShowcase = [
 const categories = ["All", "Classic", "Minimal", "Dark", "Nature", "Warm", "Elegant", "Luxury", "Futuristic", "Professional", "Bold", "Cool", "Playful"];
 
 export default function ThemesPage() {
-  const { colorTheme, setColorTheme, theme } = useTheme();
+  const { colorTheme, setColorTheme } = useColorTheme();
+  const { theme } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [previewTheme, setPreviewTheme] = useState<ColorTheme | null>(null);
 
-  const filteredThemes = selectedCategory === "All" 
-    ? themeShowcase 
+  const filteredThemes = selectedCategory === "All"
+    ? themeShowcase
     : themeShowcase.filter(t => t.category === selectedCategory);
 
   const handleThemePreview = (themeValue: ColorTheme) => {
@@ -184,19 +185,19 @@ export default function ThemesPage() {
           <h1 className="text-4xl font-bold">Theme Gallery</h1>
         </div>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-          Discover and customize your perfect color theme. From minimal whites to vibrant neons, 
+          Discover and customize your perfect color theme. From minimal whites to vibrant neons,
           find the aesthetic that matches your style.
         </p>
-        
+
         {previewTheme && (
           <div className="mb-6">
             <Badge variant="outline" className="text-sm px-4 py-2">
               <Eye className="h-4 w-4 mr-2" />
               Previewing: {themeShowcase.find(t => t.value === previewTheme)?.name}
             </Badge>
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={resetPreview}
               className="ml-2"
             >
@@ -226,8 +227,8 @@ export default function ThemesPage() {
       <section className="py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredThemes.map((themeItem) => (
-            <Card 
-              key={themeItem.value} 
+            <Card
+              key={themeItem.value}
               className={`cursor-pointer transition-all duration-200 hover:shadow-lg ${
                 colorTheme === themeItem.value ? 'ring-2 ring-primary' : ''
               }`}
@@ -240,38 +241,38 @@ export default function ThemesPage() {
                     {themeItem.category}
                   </Badge>
                 </div>
-                
+
                 {/* Color Preview */}
                 <div className="flex gap-2 mb-3">
-                  <div 
+                  <div
                     className="w-8 h-8 rounded-full border-2 border-border"
                     style={{ backgroundColor: themeItem.lightColor }}
                     title="Light mode"
                   />
-                  <div 
+                  <div
                     className="w-8 h-8 rounded-full border-2 border-border"
                     style={{ backgroundColor: themeItem.darkColor }}
                     title="Dark mode"
                   />
-                  <div 
+                  <div
                     className="w-8 h-8 rounded-full border-2 border-border"
                     style={{ backgroundColor: themeItem.accent }}
                     title="Accent color"
                   />
                 </div>
               </CardHeader>
-              
+
               <CardContent>
                 <CardDescription className="text-sm mb-4">
                   {themeItem.description}
                 </CardDescription>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     {theme === 'light' ? <Sun className="h-3 w-3" /> : <Moon className="h-3 w-3" />}
                     {theme === 'light' ? 'Light' : 'Dark'} Mode
                   </div>
-                  
+
                   {colorTheme === themeItem.value && (
                     <Badge variant="default" className="text-xs">
                       <Sparkles className="h-3 w-3 mr-1" />

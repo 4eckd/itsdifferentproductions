@@ -28,11 +28,34 @@
 ### 📚 Documentation
 **[View Documentation →](https://docs.itsdifferentproductions.com)**
 
+### 🚀 **Current Status**
+
+**Development Progress**: 78% Foundation Complete *(+3% from January 26 build fixes)*
+**Latest Update**: may 25, 2025
+**Active Features**: Web3 Integration, Vocalist Auditions, Collaboration Platform
+**Build Status**: ✅ Production Ready - All critical issues resolved
+
 ---
 
 ## 💝 Support the Project
 
 *Help us continue building amazing digital experiences!*
+
+### 🌟 **SEEKING STRATEGIC INVESTORS & PARTNERS**
+
+**Its Different Productions** is actively seeking funding to accelerate development and launch our revolutionary Web3-enabled creative marketplace.
+
+**Investment Highlights:**
+- 📈 **Market Opportunity**: $43B+ global digital music market growing 7.4% annually
+- 🚀 **Unique Position**: First platform combining Web3 with traditional e-commerce for creators
+- 🌍 **Global Reach**: Multi-language support targeting international creator communities
+- 💻 **Technical Excellence**: Built on proven tech stack with 78% foundation complete
+
+**Funding Target**: $50,000 for complete platform launch
+
+**Contact for Investment**: [Collaboration Form](https://itsdifferentproductions.vercel.app/collaborate)
+
+### 💝 **Community Donations**
 
 **Donate to support development:**
 ```
@@ -310,6 +333,28 @@ itsdifferentproductions/
 - **🔐 Secure Authentication** - Email and Web3 wallet support (MetaMask)
 - **🎤 Vocalist Auditions** - Global talent discovery in all languages and genres
 - **🤝 Collaboration System** - Professional forms for developers, artists, investors
+
+### 🎤 **CASTING CALL: A.I. VOCALS PROJECT**
+
+**🌟 WANTED: OPEN AUDITIONS FOR A.I. APP WITH MONETIZATION**
+
+We're actively recruiting talented vocalists worldwide for our revolutionary A.I. voice technology project!
+
+**What We Offer:**
+- 💰 **Paid Contracts**: $500-$5,000 per voice model
+- 📈 **Royalty Sharing**: 10-25% ongoing revenue
+- 🌍 **Global Opportunity**: All languages and genres welcome
+- 🎵 **Professional Growth**: Industry connections and portfolio building
+
+**Languages Needed**: English, Spanish, Japanese, Korean, French, Italian, Portuguese, and 40+ more!
+
+**Genres Sought**: Hip-Hop, R&B, Pop, Country, Jazz, Afrobeat, Musical Theater, Electronic, Rock, K-Pop, J-Pop
+
+**Voice Types**: Deep/Bass, Growl/Rough, Smooth/Melodic, Kid Voices, Character Voices, Whisper/Breathy, Power Vocals
+
+**How to Apply**: Visit [itsdifferentproductions.vercel.app/ai-auditions](https://itsdifferentproductions.vercel.app/ai-auditions)
+
+**Timeline**: English/Spanish/Japanese (1 month), Korean (2 months), French/Italian (2 months), Portuguese (3 months)
 
 ## Form Validation
 

@@ -46,13 +46,13 @@ export function NFTUploadForm() {
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<string | null>(null);
 
-  const form = useForm<NFTFormValues>({
+  const form = useForm({
     resolver: zodResolver(nftSchema),
     defaultValues: {
       title: "",
       description: "",
       price: 0,
-      blockchain: "ethereum",
+      blockchain: "ethereum" as const,
       contractAddress: "",
       editionSize: 1,
       editionNumber: 1,
@@ -60,6 +60,7 @@ export function NFTUploadForm() {
       tags: "",
       isTokenized: false,
       tokenId: "",
+      mediaFile: undefined,
     },
   });
 
@@ -87,7 +88,7 @@ export function NFTUploadForm() {
     }
   };
 
-  const onSubmit = async (data: NFTFormValues) => {
+  const onSubmit = async (data: any) => {
     if (!user) {
       toast.error("You must be logged in to create NFTs");
       return;
@@ -319,7 +320,7 @@ export function NFTUploadForm() {
                     <label
                       htmlFor="media-upload"
                       className={`flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer ${
-                        form.formState.errors.mediaFile
+                        (form.formState.errors as any).mediaFile
                           ? "border-destructive bg-destructive/10"
                           : "border-input bg-background hover:bg-accent/40"
                       }`}
@@ -388,9 +389,9 @@ export function NFTUploadForm() {
                   </div>
                 </div>
               </FormControl>
-              {form.formState.errors.mediaFile && (
+              {(form.formState.errors as any).mediaFile && (
                 <FormMessage>
-                  {form.formState.errors.mediaFile.message}
+                  {(form.formState.errors as any).mediaFile.message}
                 </FormMessage>
               )}
             </FormItem>

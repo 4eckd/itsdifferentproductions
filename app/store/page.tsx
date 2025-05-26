@@ -3,12 +3,14 @@ import { Music, Shirt, Gem, ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { DiscordBanner } from "@/components/discord-banner";
+// import { AuditionsBanner } from "@/components/auditions-banner";
 import { VocalistAuditions } from "@/components/vocalist-auditions";
 
 export default function StorePage() {
   return (
     <>
       <DiscordBanner />
+      {/* <AuditionsBanner /> */}
       {/* Hero Section */}
       <section className="relative py-16 sm:py-20 md:py-24 lg:py-28 overflow-hidden">
         {/* Background elements */}

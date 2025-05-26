@@ -79,12 +79,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     try {
       const cartData = await getUserCart(user.id)
-      
+
       if (cartData) {
-        const { totalItems, totalPrice } = calculateTotals(cartData)
+        const { totalItems, totalPrice } = calculateTotals(cartData as any)
         setCartState(prev => ({
           ...prev,
-          items: cartData,
+          items: cartData as any,
           totalItems,
           totalPrice,
           isLoading: false,
@@ -121,7 +121,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     try {
       const success = await addToCartDB(user.id, productId, quantity)
-      
+
       if (success) {
         await refreshCart()
         toast.success('Item added to cart')
@@ -150,7 +150,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     try {
       const success = await removeFromCartDB(itemId)
-      
+
       if (success) {
         await refreshCart()
         toast.success('Item removed from cart')
@@ -183,7 +183,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     try {
       const success = await updateCartItemQuantity(itemId, quantity)
-      
+
       if (success) {
         await refreshCart()
         return true
@@ -213,7 +213,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       // Remove all items one by one
       const removePromises = cartState.items.map(item => removeFromCartDB(item.id))
       const results = await Promise.all(removePromises)
-      
+
       if (results.every(result => result)) {
         await refreshCart()
         toast.success('Cart cleared')

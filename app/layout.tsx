@@ -7,6 +7,7 @@ import { WalletProvider } from '@/contexts/wallet-context'
 import { CartProvider } from '@/contexts/cart-context'
 import { Toaster } from '@/components/ui/sonner'
 import { DiscordInvite } from '@/components/discord-invite'
+// import { AuditionsInvite } from '@/components/auditions-invite'
 
 export const metadata: Metadata = {
   title: 'Its Different Productions',
@@ -35,6 +36,7 @@ export default function RootLayout({
                   {children}
                   <Toaster />
                   <DiscordInvite />
+                  {/* <AuditionsInvite /> */}
                 </CartProvider>
               </WalletProvider>
             </AuthProvider>
