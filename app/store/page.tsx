@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { DiscordBanner } from "@/components/discord-banner";
 // import { AuditionsBanner } from "@/components/auditions-banner";
-import { VocalistAuditions } from "@/components/vocalist-auditions";
+// import { VocalistAuditions } from "@/components/vocalist-auditions";
 
 export default function StorePage() {
   return (
@@ -157,7 +157,7 @@ export default function StorePage() {
       </section>
 
       {/* Vocalist Auditions Call-to-Action */}
-      <VocalistAuditions />
+      {/* <VocalistAuditions /> */}
     </>
   );
 }

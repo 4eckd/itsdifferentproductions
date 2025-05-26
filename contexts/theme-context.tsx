@@ -53,6 +53,3 @@ export function useColorTheme() {
   }
   return context
 }
-
-// Re-export useTheme from next-themes for convenience
-export { useTheme } from 'next-themes'
